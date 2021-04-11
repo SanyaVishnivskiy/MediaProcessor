@@ -1,0 +1,47 @@
+version: '3.4'
+services:
+
+  #kanban-postgres:
+    #image: "postgres:9.6-alpine"
+    #container_name: kanban-postgres
+    #volumes:
+    #  - kanban-data:/var/lib/postgresql/data
+    #ports:
+    #  - 5432:5432
+    #environment:
+    #  - POSTGRES_DB:kanban
+    #  - POSTGRES_USER:kanban
+    #  - POSTGRES_PASSWORD:kanban
+
+  core:
+    image: ${DOCKER_REGISTRY-}core
+    build: 
+        context: ./Server/Core/
+        dockerfile: Core/Dockerfile
+    container_name: core
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - 9400:80
+    #links:
+    #  - kanban-postgres
+
+  #media-processor-ui:
+    #build: ./media-processor-ui
+    #container_name: media-processor-ui
+    #ports:
+    #  - 8080:80
+    #links:
+    #  - media-processor-app
+
+#services:
+#  core:
+    #image: ${DOCKER_REGISTRY-}core
+    #build:
+     # context: .
+      #dockerfile: Core/Dockerfile
+      
+
+#volumes:
+  #kanban-data:
