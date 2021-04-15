@@ -49,6 +49,8 @@ namespace Core
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Core v1"));
             }
 
+            app.UseCors();
+
             app.UseRouting();
 
             app.UseAuthorization();
