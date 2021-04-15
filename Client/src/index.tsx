@@ -1,12 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
+import { FileUpload } from './components/uploads/uploads';
+
+const Index = () => {
+  return (
+    <div>Home</div>
+  );
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <div>
+        <nav>
+          <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/upload">Uploads</Link>
+            </li>
+            <li>
+              <Link to="/products/2">Second Product</Link>
+            </li>
+          </ul>
+        </nav>
+
+        <Route path="/" exact component={Index} />
+        <Route path="/upload" exact component={FileUpload} />
+        {/* <Route path="/products/:id" component={Product} /> */}
+       </div>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
