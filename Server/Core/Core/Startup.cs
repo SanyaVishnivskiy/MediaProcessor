@@ -1,16 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
+using Core.DataAccess.EF;
+using Core.Controllers;
+using Core.Business.Records.Component;
+using Core.Configuration.DI;
+using Microsoft.Extensions.FileProviders;
+using Core.Common.Models.Configurations;
+using Core.Middleware;
 
 namespace Core
 {
@@ -32,6 +33,17 @@ namespace Core
                     .AllowAnyHeader()
                     .AllowAnyMethod()));
 
+            services.AddSingleton(Configuration);
+
+            services.AddDbContext<AppDbContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddAutoMapper(
+                typeof(FilesController).Assembly,
+                typeof(RecordsComponent).Assembly);
+
+            services.RegisterDependencies(Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -40,7 +52,10 @@ namespace Core
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(
+            IApplicationBuilder app,
+            IWebHostEnvironment env,
+            LocalFileStoreOptions options)
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +65,14 @@ namespace Core
             }
 
             app.UseCors();
+
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(options.BaseFilePath),
+                RequestPath = "/files/local"
+            });
+
+            app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
             app.UseRouting();
 

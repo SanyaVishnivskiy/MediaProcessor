@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Models.Files
 {
-    public class FileModel
+    public class FileDTO
     {
         public string FileName { get; set; }
         public IFormFile FormFile { get; set; }
