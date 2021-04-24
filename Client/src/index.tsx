@@ -3,35 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
-import { FileUpload } from './components/uploads/uploads';
-
-const Index = () => {
-  return (
-    <div>Home</div>
-  );
-}
+import { Header } from './components/header/header';
+import { FileUpload } from './pages/uploads/uploads-page';
+import { RecordsPage } from './pages/records/records-page/records-page';
+import { RecordEditPage } from './pages/records/record-edit-page/record-edit-page';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/upload">Uploads</Link>
-            </li>
-            <li>
-              <Link to="/products/2">Second Product</Link>
-            </li>
-          </ul>
-        </nav>
+        <Header/>
 
-        <Route path="/" exact component={Index} />
+        <Route path="/" exact component={RecordsPage} />
         <Route path="/upload" exact component={FileUpload} />
-        {/* <Route path="/products/:id" component={Product} /> */}
+        <Route path="/records/:id" component={RecordEditPage} />
        </div>
     </Router>
   </React.StrictMode>,

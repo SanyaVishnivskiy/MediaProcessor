@@ -1,6 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const header = () => {
-
+export const Header = () => {
+    return (
+        <div>
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/">Records</Link>
+                    </li>
+                    <li>
+                        <Link to="/upload">Uploads</Link>
+                    </li>
+                    <li>
+                        <Link to="/products/2">Second Product</Link>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    );
 }
 
