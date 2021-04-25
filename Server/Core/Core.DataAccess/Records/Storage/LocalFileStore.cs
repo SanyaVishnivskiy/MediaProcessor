@@ -30,10 +30,16 @@ namespace Core.DataAccess.Records.Storage
             return new SaveFileResponse(model.FileName, Schema);
         }
 
-        public Task<string> GetFileLocation(RecordFile file)
+        public Task<Stream> Download(RecordFile file)
         {
-            var path = Path.Combine(_options.BaseFilePath, file.RelativePath);
-            return Task.FromResult(path);
+            var path = GetFileLocation(file);
+            var stream = File.OpenRead(path);
+            return Task.FromResult((Stream)stream);
+        }
+
+        private string GetFileLocation(RecordFile file)
+        {
+            return Path.Combine(_options.BaseFilePath, file.RelativePath);
         }
     }
 }

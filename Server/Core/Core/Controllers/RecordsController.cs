@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Business.Files.Component.Models;
 using Core.Business.Records.Component;
 using Core.Business.Records.Models;
 using Core.Models;
@@ -14,14 +15,17 @@ namespace Core.Controllers
     public class RecordsController : ControllerBase
     {
         private readonly IRecordsComponent _component;
+        private readonly IFilesComponent _filesComponent;
         private readonly IMapper _mapper;
 
         public RecordsController(
             IRecordsComponent component,
+            IFilesComponent filesComponent,
             IMapper mapper)
         {
-            _component = component;
-            _mapper = mapper;
+            _component = component ?? throw new ArgumentNullException(nameof(component));
+            _filesComponent = filesComponent ?? throw new ArgumentNullException(nameof(filesComponent));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
@@ -47,6 +51,16 @@ namespace Core.Controllers
             var mapped = _mapper.Map<RecordModel>(record);
             await _component.Update(mapped);
             return Ok();
+        }
+
+        [HttpGet("{recordId}/download")]
+        public async Task<IActionResult> GetBlobDownload(string recordId)
+        {
+            var record = await _component.GetById(recordId);
+            var stream = await _filesComponent.Download(record.File);
+            var contentType = "APPLICATION/octet-stream";
+            var fileName = record.FileName;
+            return File(stream, contentType, fileName);
         }
     }
 }

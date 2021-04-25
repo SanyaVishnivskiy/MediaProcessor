@@ -2,9 +2,9 @@
 using Core.Business.Files.Component.Models;
 using Core.Business.Records.Models;
 using Core.DataAccess.Records.DB.Models;
-using Core.DataAccess.Records.Storage;
 using Core.DataAccess.Records.Storage.Models;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace Core.Business.Files.Component
@@ -20,11 +20,11 @@ namespace Core.Business.Files.Component
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public Task<string> GetFileLocation(RecordFileModel file)
+        public async Task<Stream> Download(RecordFileModel file)
         {
             var store = _storeFactory.Create(file.FileStoreSchema);
             var recordFile = _mapper.Map<RecordFile>(file);
-            return store.GetFileLocation(recordFile);
+            return await store.Download(recordFile);
         }
 
         public async Task<SaveFileResponseModel> Save(FileModel file)

@@ -63,19 +63,5 @@ namespace Core.Controllers
                 });
             }
         }
-
-        //[HttpGet("{recordId}/download")]
-        //public async Task<IActionResult> GetBlobDownload([FromQuery] string recordId)
-        //{
-        //    var net = new System.Net.WebClient();
-        //    var record = await _recordsComponent.GetById(recordId);
-        //    var path = await _component.Download();
-        //    var link = record.File.;
-        //    var data = net.DownloadData(link);
-        //    var content = new System.IO.MemoryStream(data);
-        //    var contentType = "APPLICATION/octet-stream";
-        //    var fileName = record.FileName;
-        //    return File(content, contentType, fileName);
-        //}
     }
 }
