@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { RecordActionsBlock } from "../../../components/records/actions/record-actions-block";
 import { RecordFieldsBlock } from "../../../components/records/Details/record-fields-block";
 import { RecordImageBlock } from "../../../components/records/main/record-image-block";
 import { IRecord } from "../../../entities/records/models";
@@ -45,7 +46,7 @@ export const RecordEditPage = (props: RecordEditPageProps) => {
                 : (<div>
                     <div>Record:</div>
                     <RecordImageBlock record={record} height="200"/>
-                    {/* <RecordActionsBlock record={record} />} */}
+                    <RecordActionsBlock record={record} />
                     <RecordFieldsBlock record={record} onChange={onChange}/>
                     <button onClick={saveRecord}>Save</button>
                 </div>)

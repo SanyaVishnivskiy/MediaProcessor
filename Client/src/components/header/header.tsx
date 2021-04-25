@@ -12,9 +12,6 @@ export const Header = () => {
                     <li>
                         <Link to="/upload">Uploads</Link>
                     </li>
-                    <li>
-                        <Link to="/products/2">Second Product</Link>
-                    </li>
                 </ul>
             </nav>
         </div>

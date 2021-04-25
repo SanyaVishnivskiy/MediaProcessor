@@ -10,7 +10,22 @@ const get = async (uri: string) => {
         console.log(e);
         throw new Error(e);
     }
-} 
+}
+
+const download = async (uri: string): Promise<Blob> => {
+    try {
+        const res = await axios({
+            url: baseUri + uri, 
+            method: 'GET',
+            responseType: 'blob'
+        });
+        
+        return new Blob([res.data]);;
+    } catch (e) {
+        console.log(e);
+        throw new Error(e);
+    }
+}
 
 const post = async (uri: string, body: any) => {
     try {
@@ -36,5 +51,6 @@ export {
     baseUri,
     get,
     post,
-    put
+    put,
+    download
 };
