@@ -1,0 +1,31 @@
+.pagination {
+    margin: 15px auto;
+    width: 100%;
+}
+
+.active {
+    background-color: #47ccde ;
+    border-color: #47ccde ;
+    color: #fff;
+}
+
+.pagination li{
+    border: 1px solid #47ccde ;
+    padding: 5px 10px;
+    cursor: pointer;
+    list-style: none;
+    width: 20px;
+    text-align: center;
+    margin: 10px;
+    float: left;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus{
+    background-color: #47ccde ;
+    border-color: #47ccde;
+    outline: none ;
+}
+
+.pagination > li, .pagination > li{
+    color: #47ccde
+}

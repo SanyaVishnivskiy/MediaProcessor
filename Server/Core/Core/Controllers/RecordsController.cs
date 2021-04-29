@@ -2,6 +2,8 @@
 using Core.Business.Files.Component.Models;
 using Core.Business.Records.Component;
 using Core.Business.Records.Models;
+using Core.Common.Models;
+using Core.Common.Models.Search;
 using Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -29,10 +31,11 @@ namespace Core.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get()
+        public async Task<ActionResult> Get([FromQuery]Pagination pagination)
         {
-            var result = await _component.GetWithDependencies(null);
-            return Ok(_mapper.Map<List<RecordDTO>>(result));
+            var result = await _component.GetWithDependencies(pagination);
+            var mappedItems = result.RecreateWithType(x => _mapper.Map<List<RecordDTO>>(x));
+            return Ok(mappedItems);
         }
 
         [HttpGet]

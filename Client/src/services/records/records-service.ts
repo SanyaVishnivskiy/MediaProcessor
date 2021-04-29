@@ -1,16 +1,19 @@
 import * as http from "../../services/api/http"
 import { IRecord } from "../../entities/records/models";
 import { saveAs } from 'file-saver';
+import { objToQuery, queryToObj } from "../common/query-converter";
+import { IPagination, SearchResult } from "../../entities/search/models";
 
 export class RecordsService {
     uri = "records";
-
-    async get(): Promise<IRecord[]> {
-        const response = await http.get(this.uri);
+    
+    async get(pagination: IPagination): Promise<SearchResult<IRecord>> {
+        const queryString = objToQuery(pagination);
+        const response = await http.get(this.uri + "?" + queryString);
         if (response.data == null)
-            return new Array<IRecord>();
+            return new SearchResult<IRecord>();
 
-        return response.data as IRecord[];
+        return response.data as SearchResult<IRecord>;
     }
 
     async getById(id: string): Promise<IRecord> {

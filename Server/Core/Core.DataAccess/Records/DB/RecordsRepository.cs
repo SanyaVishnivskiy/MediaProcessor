@@ -1,9 +1,9 @@
 ﻿using Core.Common.Models;
+using Core.Common.Models.Search;
 using Core.DataAccess.Base.Database;
 using Core.DataAccess.EF;
 using Core.DataAccess.Records.DB.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Core.DataAccess.Records.DB
@@ -21,11 +21,11 @@ namespace Core.DataAccess.Records.DB
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<List<Record>> GetWithAllDependencies(Pagination pagination)
+        public Task<SearchResult<Record>> GetWithAllDependencies(Pagination pagination)
         {
-            return Set
-                .Include(x => x.File)
-                .ToListAsync();
+            return Get(
+                pagination,
+                query => query.Include(x => x.File));
         }
     }
 }

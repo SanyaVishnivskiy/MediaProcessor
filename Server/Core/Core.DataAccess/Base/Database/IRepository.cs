@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Core.Common.Models;
+using Core.Common.Models.Search;
+using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Core.DataAccess.Base.Database
@@ -9,7 +11,9 @@ namespace Core.DataAccess.Base.Database
     {
         Task<T> GetById(string id);
         Task<List<T>> GetAll();
-        Task<List<T>> Get(Expression<Func<T, bool>> expression);
+        Task<SearchResult<T>> Get(
+            Pagination pagination,
+            Func<IQueryable<T>, IQueryable<T>> modify = null);
         Task Add(T entity);
         Task AddRange(IEnumerable<T> entities);
         Task Update(T entity);

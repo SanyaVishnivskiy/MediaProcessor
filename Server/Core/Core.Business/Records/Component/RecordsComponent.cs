@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Business.Records.Models;
 using Core.Common.Models;
+using Core.Common.Models.Search;
 using Core.DataAccess.Base.Database;
 using Core.DataAccess.Records.DB.Models;
 using System;
@@ -64,10 +65,10 @@ namespace Core.Business.Records.Component
             return _mapper.Map<List<RecordModel>>(result);
         }
 
-        public async Task<List<RecordModel>> GetWithDependencies(Pagination pagination)
+        public async Task<SearchResult<RecordModel>> GetWithDependencies(Pagination pagination)
         {
             var result = await _context.Records.GetWithAllDependencies(pagination);
-            return _mapper.Map<List<RecordModel>>(result);
+            return result.RecreateWithType(x => _mapper.Map<List<RecordModel>>(x));
         }
 
         public async Task<RecordModel> GetById(string id)

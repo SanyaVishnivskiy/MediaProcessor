@@ -1,4 +1,6 @@
-﻿using Core.DataAccess.EF;
+﻿using Core.Common.Models;
+using Core.Common.Models.Search;
+using Core.DataAccess.EF;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -30,9 +32,22 @@ namespace Core.DataAccess.Base.Database
             await Set.AddRangeAsync(entities);
         }
 
-        public virtual Task<List<T>> Get(Expression<Func<T, bool>> expression)
+        public virtual async Task<SearchResult<T>> Get(
+            Pagination pagination,
+            Func<IQueryable<T>, IQueryable<T>> modify = null)
         {
-            return Set.Where(expression).ToListAsync();
+            var query = modify?.Invoke(Set) ?? Set;
+
+            var results = await Paginate(query, pagination).ToListAsync();
+            var count = await query.CountAsync();
+
+            return new SearchResult<T>
+            {
+                Items = results,
+                Page = pagination.Page,
+                Size = pagination.Size,
+                TotalItems = count
+            };
         }
 
         public virtual Task<List<T>> GetAll()
@@ -61,6 +76,15 @@ namespace Core.DataAccess.Base.Database
         {
             Set.RemoveRange(entities);
             return Task.CompletedTask;
+        }
+
+        protected IQueryable<T> Paginate(
+            IQueryable<T> items,
+            Pagination pagination)
+        {
+            return items
+                .Skip((pagination.Page - 1) * pagination.Size)
+                .Take(pagination.Size);
         }
     }
 }

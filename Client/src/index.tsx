@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Router, Route, Link } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import { Header } from './components/header/header';
 import { FileUpload } from './pages/uploads/uploads-page';
 import { RecordsPage } from './pages/records/records-page/records-page';
 import { RecordEditPage } from './pages/records/record-edit-page/record-edit-page';
+import history from './entities/search/history';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
+    <Router history={history}>
       <div>
         <Header/>
 

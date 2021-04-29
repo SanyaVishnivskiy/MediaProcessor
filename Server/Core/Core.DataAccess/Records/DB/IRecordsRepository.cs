@@ -1,4 +1,5 @@
 ﻿using Core.Common.Models;
+using Core.Common.Models.Search;
 using Core.DataAccess.Base.Database;
 using Core.DataAccess.Records.DB.Models;
 using System.Collections.Generic;
@@ -8,6 +9,6 @@ namespace Core.DataAccess.Records.DB
 {
     public interface IRecordsRepository : IRepository<Record>
     {
-        Task<List<Record>> GetWithAllDependencies(Pagination pagination);
+        Task<SearchResult<Record>> GetWithAllDependencies(Pagination pagination);
     }
 }
