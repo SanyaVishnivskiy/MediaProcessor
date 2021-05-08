@@ -8,6 +8,7 @@ import { FileUpload } from './pages/uploads/uploads-page';
 import { RecordsPage } from './pages/records/records-page/records-page';
 import { RecordEditPage } from './pages/records/record-edit-page/record-edit-page';
 import history from './entities/search/history';
+import { ActionsPage } from './pages/actions/actions-page';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,7 +18,8 @@ ReactDOM.render(
 
         <Route path="/" exact component={RecordsPage} />
         <Route path="/upload" exact component={FileUpload} />
-        <Route path="/records/:id" component={RecordEditPage} />
+        <Route path="/records/:id" exact component={RecordEditPage} />
+        <Route path="/records/:id/actions" exact component={ActionsPage} />
        </div>
     </Router>
   </React.StrictMode>,

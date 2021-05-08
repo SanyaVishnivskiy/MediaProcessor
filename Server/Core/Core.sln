@@ -12,9 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 		..\..\.gitignore = ..\..\.gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Business", "Core.Business\Core.Business.csproj", "{C1CB75A6-E45C-4BC8-B07B-27DEE0AE5058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Business", "Core.Business\Core.Business.csproj", "{C1CB75A6-E45C-4BC8-B07B-27DEE0AE5058}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Common", "Core.Common\Core.Common.csproj", "{02AE216A-BB74-4F69-BE52-36515542B3E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Common", "Core.Common\Core.Common.csproj", "{02AE216A-BB74-4F69-BE52-36515542B3E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{F656400C-3540-4477-85B8-9CC7B41515B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{02AE216A-BB74-4F69-BE52-36515542B3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02AE216A-BB74-4F69-BE52-36515542B3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02AE216A-BB74-4F69-BE52-36515542B3E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F656400C-3540-4477-85B8-9CC7B41515B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F656400C-3540-4477-85B8-9CC7B41515B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F656400C-3540-4477-85B8-9CC7B41515B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F656400C-3540-4477-85B8-9CC7B41515B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

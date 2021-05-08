@@ -2,6 +2,7 @@
 using Core.Common.Models.Configurations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Scheduler.Configuration;
 using System.IO;
 
 namespace Core.Configuration.DI
@@ -14,6 +15,8 @@ namespace Core.Configuration.DI
         {
             RegisterConfigurations(services, configuration);
             RegisterBusinessLayer(services);
+
+            services.ComposeScheduler(configuration);
 
             return services;
         }
