@@ -37,7 +37,7 @@ namespace Scheduler.Configuration
             var scheduler = configuration.ConfigureScheduler(schedulerConfiguration);
             services.AddSingleton(scheduler);
 
-            scheduler.AddJob(CreateJob(JobType.Actions), false)
+            scheduler.AddJob(CreateJob(JobType.Actions), true)
                 .GetAwaiter()
                 .GetResult();
 
