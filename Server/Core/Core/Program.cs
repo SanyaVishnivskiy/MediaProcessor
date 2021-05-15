@@ -1,12 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
+using Quartz;
 
 namespace Core
 {
@@ -14,7 +11,17 @@ namespace Core
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+
+            RunScheduler(host.Services);
+
+            host.Run();
+        }
+
+        private static void RunScheduler(IServiceProvider services)
+        {
+            var scheduler = (IScheduler)services.GetService(typeof(IScheduler));
+            scheduler.Start().GetAwaiter().GetResult();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

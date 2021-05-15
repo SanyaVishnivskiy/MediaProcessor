@@ -1,5 +1,6 @@
 ﻿using Core.Business.Configuration;
 using Core.Common.Models.Configurations;
+using FileProcessor.Composition;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scheduler.Configuration;
@@ -17,6 +18,7 @@ namespace Core.Configuration.DI
             RegisterBusinessLayer(services);
 
             services.ComposeScheduler(configuration);
+            services.ComposeActions(configuration);
 
             return services;
         }

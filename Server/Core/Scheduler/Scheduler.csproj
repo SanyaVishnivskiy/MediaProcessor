@@ -13,4 +13,8 @@
     <PackageReference Include="Quartz.Serialization.Json" Version="3.3.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FileProcessor\FileProcessor.csproj" />
+  </ItemGroup>
+
 </Project>

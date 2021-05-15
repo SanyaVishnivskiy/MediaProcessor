@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using Scheduler.Component;
 using Scheduler.Jobs;
-using System;
 
 namespace Scheduler.Configuration
 {
@@ -25,6 +24,8 @@ namespace Scheduler.Configuration
 
         private static void ComposeJobs(IServiceCollection services)
         {
+            services.AddTransient<ActionsJob>();
+
             services
                 .AddTransient<ITriggerBuilderFactory, TriggerBuilderFactory>();
 
@@ -33,15 +34,16 @@ namespace Scheduler.Configuration
 
         private static void ComposeQuartzScheduler(IServiceCollection services, SchedulerConfiguration schedulerConfiguration)
         {
-            var configuration = new QuartzSchedulerConfiguration();
-            var scheduler = configuration.ConfigureScheduler(schedulerConfiguration);
-            services.AddSingleton(scheduler);
+            services.AddSingleton(p => {
+                var configuration = new QuartzSchedulerConfiguration();
+                var scheduler = configuration.ConfigureScheduler(p, schedulerConfiguration);
 
-            scheduler.AddJob(CreateJob(JobType.Actions), true)
-                .GetAwaiter()
-                .GetResult();
+                scheduler.AddJob(CreateJob(JobType.Actions), true)
+                    .GetAwaiter()
+                    .GetResult();
 
-            scheduler.Start().GetAwaiter().GetResult();
+                return scheduler;
+            });
         }
 
         private static IJobDetail CreateJob(JobType type)

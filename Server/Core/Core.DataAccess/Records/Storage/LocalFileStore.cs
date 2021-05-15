@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace Core.DataAccess.Records.Storage
 {
-    public class LocalFileStore : IFileStore
+    public interface ILocalFileStore : IFileStore
+    {
+        string GetFileLocation(RecordFile file);
+    }
+
+    public class LocalFileStore : ILocalFileStore
     {
         public string Schema => "local";
 
@@ -37,7 +42,7 @@ namespace Core.DataAccess.Records.Storage
             return Task.FromResult((Stream)stream);
         }
 
-        private string GetFileLocation(RecordFile file)
+        public string GetFileLocation(RecordFile file)
         {
             return Path.Combine(_options.BaseFilePath, file.RelativePath);
         }

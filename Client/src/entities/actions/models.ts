@@ -1,13 +1,19 @@
 export interface IAction {
     type: ActionType;
+    inputPath: string;
+    outputPath: string;
 }
 
 export enum ActionType {
-    Invalid = 0,
-
+    NotSelected = 'NotSelected',
+    Resize = 'Resize',
 }
 
 export interface IRunActionsRequest {
     recordId: string;
     actions: IAction[];
+}
+
+export interface IResizeAction extends IAction {
+
 }

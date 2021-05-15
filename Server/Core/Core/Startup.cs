@@ -12,6 +12,7 @@ using Core.Configuration.DI;
 using Microsoft.Extensions.FileProviders;
 using Core.Common.Models.Configurations;
 using Core.Middleware;
+using System.Text.Json.Serialization;
 
 namespace Core
 {
@@ -44,7 +45,12 @@ namespace Core
 
             services.RegisterDependencies(Configuration);
 
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddJsonOptions(options => {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Core", Version = "v1" });

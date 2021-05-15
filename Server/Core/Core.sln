@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Business", "Core.Busin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Common", "Core.Common\Core.Common.csproj", "{02AE216A-BB74-4F69-BE52-36515542B3E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scheduler", "Scheduler\Scheduler.csproj", "{F656400C-3540-4477-85B8-9CC7B41515B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Scheduler", "Scheduler\Scheduler.csproj", "{F656400C-3540-4477-85B8-9CC7B41515B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileProcessor", "FileProcessor\FileProcessor.csproj", "{59B5013C-47F1-486F-BD2D-8EB78ACB2C95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{F656400C-3540-4477-85B8-9CC7B41515B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F656400C-3540-4477-85B8-9CC7B41515B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F656400C-3540-4477-85B8-9CC7B41515B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B5013C-47F1-486F-BD2D-8EB78ACB2C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B5013C-47F1-486F-BD2D-8EB78ACB2C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B5013C-47F1-486F-BD2D-8EB78ACB2C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B5013C-47F1-486F-BD2D-8EB78ACB2C95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

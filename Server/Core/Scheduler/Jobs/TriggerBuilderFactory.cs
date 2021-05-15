@@ -22,7 +22,6 @@ namespace Scheduler.Jobs
                 .ForJob(new JobKey(jobKey, groupKey))
                 .UsingJobData(CreateData(data.Data))
                 .StartNow()
-                .WithSimpleSchedule(x => x.WithIntervalInSeconds(5).RepeatForever())
                 .Build();
         }
 

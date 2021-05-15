@@ -3,8 +3,8 @@ using Core.Business.Files.Component.Models;
 using Core.Business.Records.Component;
 using Core.Business.Records.Models;
 using Core.Common.Models;
-using Core.Common.Models.Search;
 using Core.Models;
+using FileProcessor.Actions;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,15 +18,18 @@ namespace Core.Controllers
     {
         private readonly IRecordsComponent _component;
         private readonly IFilesComponent _filesComponent;
+        private readonly IActionsProcessorFacade _actionsFacade;
         private readonly IMapper _mapper;
 
         public RecordsController(
             IRecordsComponent component,
             IFilesComponent filesComponent,
+            IActionsProcessorFacade actionsFacade,
             IMapper mapper)
         {
             _component = component ?? throw new ArgumentNullException(nameof(component));
             _filesComponent = filesComponent ?? throw new ArgumentNullException(nameof(filesComponent));
+            _actionsFacade = actionsFacade ?? throw new ArgumentNullException(nameof(actionsFacade));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -64,6 +67,13 @@ namespace Core.Controllers
             var contentType = "APPLICATION/octet-stream";
             var fileName = record.FileName;
             return File(stream, contentType, fileName);
+        }
+
+        [HttpGet("{recordId}/actions")]
+        public async Task<IActionResult> GetActions(string recordId)
+        {
+            var actions = await _actionsFacade.GetActions(recordId);
+            return Ok(actions);
         }
     }
 }
