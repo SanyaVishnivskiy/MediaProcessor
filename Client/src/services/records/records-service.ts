@@ -31,6 +31,10 @@ export class RecordsService {
         saveAs(response, record.fileName);
     }
 
+    async delete(recordId: string): Promise<void> {
+        const response = await http.httpDelete(this.uriWithId(recordId));
+    }
+
     async getActions(id: string): Promise<IAction[]> {
         const response = await http.get(this.uriWithId(id) + "/actions")
         if (!response.data) {

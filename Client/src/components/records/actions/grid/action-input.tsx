@@ -10,11 +10,11 @@ interface ActionInputProps {
 }
 
 export const ActionInput = (props: ActionInputProps) => {
-    const [action, setAction] = useState<IAction>(props.action);// ?
+    //const [action, setAction] = useState<IAction>(props.action);// ?
 
     const onChange = (type: ActionType) => {
         props.action.type = type;
-        setAction(action);// ?
+        //setAction(action);// ?
         props.onActionChange(props.action, props.index);
     }
 

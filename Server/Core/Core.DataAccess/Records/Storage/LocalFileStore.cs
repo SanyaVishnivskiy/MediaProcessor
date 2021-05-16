@@ -46,5 +46,12 @@ namespace Core.DataAccess.Records.Storage
         {
             return Path.Combine(_options.BaseFilePath, file.RelativePath);
         }
+
+        public Task Delete(RecordFile file)
+        {
+            var path = GetFileLocation(file);
+            File.Delete(path);
+            return Task.CompletedTask;
+        }
     }
 }

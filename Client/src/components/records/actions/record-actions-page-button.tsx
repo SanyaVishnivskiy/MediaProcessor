@@ -7,7 +7,7 @@ interface RecordActionsPageButtonProps {
 
 export const RecordActionsPageButton = ({record}: RecordActionsPageButtonProps) => {
     const redirect = () => {
-        history.push(`/records/${record.id}/actions`)
+        history.push(`/records/${record.id}/actions`);
     }
 
     return (

@@ -1,6 +1,5 @@
-﻿using Core.Business.Files.Component;
-using Core.Business.Files.Component.Models;
-using Core.Business.Records.Component;
+﻿using Core.Business.Files.Component.Models;
+using Core.Business.Records.Facade;
 using Core.Business.Records.Models;
 using Core.Common.Exceptions;
 using Core.DataAccess.Records.DB.Models;
@@ -21,27 +20,24 @@ namespace FileProcessor.Files
 
     public class LocalRecordComponent : ILocalRecordsComponent
     {
-        private readonly IRecordsComponent _component;
-        private readonly IFilesComponent _filesComponent;
+        private readonly IRecordsComponentFacade _facade;
         private readonly ILocalFileStore _store;
 
         public LocalRecordComponent(
-            IRecordsComponent component,
-            IFilesComponent filesComponent,
+            IRecordsComponentFacade facade,
             IActionsFileStore store)
         {
-            _component = component ?? throw new ArgumentNullException(nameof(component));
-            _filesComponent = filesComponent ?? throw new ArgumentNullException(nameof(filesComponent));
+            _facade = facade ?? throw new ArgumentNullException(nameof(facade));
             _store = store ?? throw new ArgumentNullException(nameof(store));
         }
 
         public async Task<DownloadingResult> DownloadLocally(string recordId)
         {
-            var record = await _component.GetById(recordId);
+            var record = await _facade.GetById(recordId);
             if (record is null)
                 throw new ItemNotFoundException($"Record {recordId} does not exists");
 
-            var fileStream = await _filesComponent.Download(record.File);
+            var fileStream = await _facade.Download(record);
 
             var path = await Save(fileStream, record);
             return new DownloadingResult(record, path);
@@ -65,34 +61,18 @@ namespace FileProcessor.Files
 
         public async Task AddRecord(string fileName, string localFilePath)
         {
-            SaveFileResponseModel saveResult = null;
             using (var stream = File.OpenRead(localFilePath))
             {
-                saveResult = await _filesComponent.Save(BuildFileModel(stream, fileName));
+                await _facade.Create(BuildFileModel(stream, fileName));
             }
-
-            await _component.AddDefault(BuildRecord(fileName, saveResult));
         }
 
         private FileModel BuildFileModel(Stream stream, string fileName)
         {
             return new FileModel
             {
-                FileName = Guid.NewGuid().ToString() + Path.GetExtension(fileName),
-                Stream = stream,
-            };
-        }
-
-        private RecordModel BuildRecord(string fileName, SaveFileResponseModel saveResult)
-        {
-            return new RecordModel
-            {
                 FileName = fileName,
-                File = new RecordFileModel
-                {
-                    FileStoreSchema = saveResult.FileStoreSchema,
-                    RelativePath = saveResult.RelativePath
-                }
+                Stream = stream,
             };
         }
 

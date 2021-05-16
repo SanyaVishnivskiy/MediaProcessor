@@ -25,7 +25,6 @@ export const RecordEditPage = (props: RecordEditPageProps) => {
     }
 
     useEffect(() => {
-        console.log("recordEdit");
         fetchRecord();
       }, []);
 

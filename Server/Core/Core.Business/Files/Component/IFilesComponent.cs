@@ -8,5 +8,6 @@ namespace Core.Business.Files.Component.Models
     {
         Task<SaveFileResponseModel> Save(FileModel file);
         Task<Stream> Download(RecordFileModel file);
+        Task Delete(RecordFileModel file);
     }
 }

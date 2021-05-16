@@ -66,6 +66,12 @@ namespace Core.DataAccess.Base.Database
             return Task.CompletedTask;
         }
 
+        public virtual async Task Delete(string id)
+        {
+            var record = await GetById(id);
+            await Delete(record);
+        }
+
         public virtual Task Delete(T entity)
         {
             Set.Remove(entity);

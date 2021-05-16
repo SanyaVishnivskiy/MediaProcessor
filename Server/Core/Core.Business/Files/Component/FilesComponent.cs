@@ -33,5 +33,11 @@ namespace Core.Business.Files.Component
             var result = await store.Save(_mapper.Map<SaveFileModel>(file));
             return _mapper.Map<SaveFileResponseModel>(result);
         }
+
+        public async Task Delete(RecordFileModel file)
+        {
+            var store = _storeFactory.CreateDefault();
+            await store.Delete(_mapper.Map<RecordFile>(file));
+        }
     }
 }

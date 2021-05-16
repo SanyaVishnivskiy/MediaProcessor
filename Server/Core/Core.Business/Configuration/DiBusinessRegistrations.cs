@@ -3,7 +3,6 @@ using Core.Business.Files.Component.Models;
 using Core.Business.Records.Configuration;
 using Core.DataAccess.Composition;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Core.Business.Configuration
 {
@@ -25,7 +24,7 @@ namespace Core.Business.Configuration
 
         private void RegisterRecords(IServiceCollection services)
         {
-            var registrator = new RecordsRegistrations();
+            var registrator = new RecordsComposition();
             registrator.Register(services);
         }
 

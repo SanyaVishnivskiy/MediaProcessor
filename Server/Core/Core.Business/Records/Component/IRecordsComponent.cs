@@ -14,6 +14,6 @@ namespace Core.Business.Records.Component
         Task Add(RecordModel model);
         Task AddDefault(RecordModel model);
         Task Update(RecordModel model);
-        Task Delete();
+        Task Delete(string id);
     }
 }

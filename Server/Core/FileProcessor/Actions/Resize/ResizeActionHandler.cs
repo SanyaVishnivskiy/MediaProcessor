@@ -34,10 +34,7 @@ namespace FileProcessor.Actions.Resize
             var input = await FFmpeg.GetMediaInfo(action.InputPath).ConfigureAwait(false);
             var stream = input.VideoStreams.First();
             //stream.
-            using (var newFileStream = File.Create(action.OutputPath))
-            {
-
-            }
+            File.Copy(action.InputPath, action.OutputPath);
 
             return ActionHandlerResult.Successful(action.OutputPath);
         }

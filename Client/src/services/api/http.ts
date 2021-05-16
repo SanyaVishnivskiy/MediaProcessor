@@ -47,10 +47,21 @@ const put = async(uri: string, body: any) => {
     }
 }
 
+const httpDelete = async(uri: string) => {
+    try {
+        const res = await axios.delete(baseUri + uri);
+        return res;
+    } catch (e) {
+        console.log(e);
+        throw new Error(e);
+    }
+}
+
 export {
     baseUri,
     get,
     post,
     put,
-    download
+    download,
+    httpDelete
 };

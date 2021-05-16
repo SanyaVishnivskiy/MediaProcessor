@@ -54,9 +54,10 @@ namespace Core.Business.Records.Component
             }
         }
 
-        public Task Delete()
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+            await _context.Records.Delete(id);
+            await _context.SaveChanges();
         }
 
         public async Task<List<RecordModel>> Get(Pagination pagination)

@@ -17,6 +17,7 @@ namespace Core.DataAccess.Base.Database
         Task Add(T entity);
         Task AddRange(IEnumerable<T> entities);
         Task Update(T entity);
+        Task Delete(string id);
         Task Delete(T entity);
         Task DeleteRange(IEnumerable<T> entities);
     }

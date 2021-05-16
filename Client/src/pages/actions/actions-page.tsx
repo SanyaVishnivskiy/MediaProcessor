@@ -5,6 +5,7 @@ import { IAction, IRunActionsRequest } from "../../entities/actions/models";
 import { IRecord } from "../../entities/records/models";
 import { JobsService } from "../../services/actions/jobs-service";
 import { RecordsService } from "../../services/records/records-service";
+import history from "../../entities/search/history";
 
 interface ActionsPageParams {
     id: string; 
@@ -38,6 +39,7 @@ export const ActionsPage = (props: ActionsPageProps) => {
             recordId: recordId
         };
         await jobsService.run(request);
+        history.push(`/records/${recordId}`)
     }
 
     const getSelectedActions = () => {

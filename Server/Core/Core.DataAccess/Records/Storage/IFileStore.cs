@@ -10,5 +10,6 @@ namespace Core.DataAccess.Records.Storage
         string Schema { get; }
         Task<SaveFileResponse> Save(SaveFileModel model);
         Task<Stream> Download(RecordFile recordFile);
+        Task Delete(RecordFile recordFile);
     }
 }
