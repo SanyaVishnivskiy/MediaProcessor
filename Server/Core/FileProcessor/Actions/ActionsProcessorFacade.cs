@@ -32,9 +32,13 @@ namespace FileProcessor.Actions
 
         public async Task<List<IAction>> GetActions(string recordId)
         {
-            var result = await _filesComponent.DownloadLocally(recordId);
+            var file = await _filesComponent.DownloadLocally(recordId);
 
-            return _mappings.GetPossibleActionsByName(result.LocalPath);
+            var result = _mappings.GetPossibleActionsByName(file.LocalPath);
+
+            await DeleteLocalFile(file.LocalPath);
+
+            return result;
         }
 
         public async Task Process(ActionsRequest request)

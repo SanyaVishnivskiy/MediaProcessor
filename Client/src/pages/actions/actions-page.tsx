@@ -51,7 +51,9 @@ export const ActionsPage = (props: ActionsPageProps) => {
     }
 
     const onSelectedActionsChange = (selectedActions: IAction[]) => {
-        setSelectedActions(selectedActions);
+        const json = JSON.stringify(selectedActions);
+        const actions = JSON.parse(json) as IAction[];
+        setSelectedActions(actions);
     }
 
     useEffect(() =>{
@@ -65,6 +67,7 @@ export const ActionsPage = (props: ActionsPageProps) => {
 
             <ActionsGrid
                 possibleActions={possibleActions}
+                selectedActions={selectedActions}
                 onSelectedActionsChange={onSelectedActionsChange}/>
 
             <button onClick={() => runActions()}>Run</button>

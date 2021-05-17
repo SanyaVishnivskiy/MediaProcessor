@@ -4,6 +4,7 @@ import { ActionInput } from "./action-input";
 
 interface ActionsGridProps {
     possibleActions: IAction[]
+    selectedActions: IAction[]
     onSelectedActionsChange: (selectedActions: IAction[]) => void
 }
 
@@ -18,6 +19,8 @@ export const ActionsGrid = (props: ActionsGridProps) => {
 
     const addNewActionInput = () => {
         actions.push(emptyAction);
+        setActions(actions);
+        props.onSelectedActionsChange(actions);
     }
 
     const onActionChange = (action: IAction, index: number): void => {

@@ -31,10 +31,14 @@ namespace FileProcessor.Actions.Resize
 
         private async Task<ActionHandlerResult> Handle(ResizeAction action)
         {
-            var input = await FFmpeg.GetMediaInfo(action.InputPath).ConfigureAwait(false);
-            var stream = input.VideoStreams.First();
-            //stream.
-            File.Copy(action.InputPath, action.OutputPath);
+            var conversion = await FFmpeg.Conversions.FromSnippet
+                .ChangeSize(
+                    action.InputPath,
+                    action.OutputPath,
+                    action.Width,
+                    action.Height);
+
+            var result = await conversion.Start();
 
             return ActionHandlerResult.Successful(action.OutputPath);
         }

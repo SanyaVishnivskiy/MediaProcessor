@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { ActionType, IAction } from "../../../../entities/actions/models";
+import { ActionType, IAction, ResizeAction } from "../../../../entities/actions/models";
 import { ActionInputDropdown } from "./action-input-dropdown";
+import { ResizeActionInput } from "./inputs/resize-action-input";
 
 interface ActionInputProps {
     index: number,
@@ -10,12 +11,14 @@ interface ActionInputProps {
 }
 
 export const ActionInput = (props: ActionInputProps) => {
-    //const [action, setAction] = useState<IAction>(props.action);// ?
 
     const onChange = (type: ActionType) => {
         props.action.type = type;
-        //setAction(action);// ?
         props.onActionChange(props.action, props.index);
+    }
+
+    const onActionChange = (action: IAction) => {
+        props.onActionChange(action, props.index)
     }
 
     const notSelectedActionInput = () => {
@@ -26,7 +29,9 @@ export const ActionInput = (props: ActionInputProps) => {
 
     const resizeActionInput = () => {
         return (<div>
-            Resize
+            <ResizeActionInput 
+                action={props.action as ResizeAction}
+                onActionChange={onActionChange}/>
         </div>);
     }
 

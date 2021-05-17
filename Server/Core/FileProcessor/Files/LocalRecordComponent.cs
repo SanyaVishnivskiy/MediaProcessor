@@ -56,7 +56,7 @@ namespace FileProcessor.Files
 
         private string BuildNewFileName(RecordModel record)
         {
-            return Guid.NewGuid().ToString() + Path.GetExtension(record.FileName);
+            return Guid.NewGuid().ToString() + Path.GetExtension(record.File.RelativePath);
         }
 
         public async Task AddRecord(string fileName, string localFilePath)
