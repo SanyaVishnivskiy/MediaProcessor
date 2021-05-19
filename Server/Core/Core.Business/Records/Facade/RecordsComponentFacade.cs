@@ -59,15 +59,33 @@ namespace Core.Business.Records.Facade
 
         private RecordModel MapToRecord(SaveFileResponseModel response, FileModel file)
         {
+            return MapToRecord(response, file.FileName);
+        }
+
+        private RecordModel MapToRecord(SaveFileResponseModel response, string fileName)
+        {
             return new RecordModel
             {
-                FileName = file.FileName,
+                FileName = fileName,
                 File = new RecordFileModel
                 {
                     FileStoreSchema = response.FileStoreSchema,
                     RelativePath = response.RelativePath
                 }
             };
+        }
+
+        public Task<SaveFileResponseModel> SaveFileChunk(FileModel file)
+        {
+            return _filesComponent.SaveChunk(file);
+        }
+
+        public async Task CompleteChunksUpload(CompleteChunksUploadModel model)
+        {
+            var cloned = model.CloneWithFileName(RandomFileName(model.FileName));
+            var result = await _filesComponent.CompleteChunksUpload(cloned);
+            var record = MapToRecord(result, model.FileName);
+            await _recordComponent.AddDefault(record);
         }
 
         public async Task Delete(string id)

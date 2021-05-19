@@ -34,6 +34,21 @@ namespace Core.Business.Files.Component
             return _mapper.Map<SaveFileResponseModel>(result);
         }
 
+        public async Task<SaveFileResponseModel> SaveChunk(FileModel file)
+        {
+            var store = _storeFactory.CreateDefault();
+            var result = await store.SaveChunk(_mapper.Map<SaveFileModel>(file));
+            return _mapper.Map<SaveFileResponseModel>(result);
+        }
+
+        public async Task<SaveFileResponseModel> CompleteChunksUpload(CompleteChunksUploadModel model)
+        {
+            var store = _storeFactory.CreateDefault();
+            var request = _mapper.Map<CompleteChunksUploadRequest>(model);
+            var result = await store.CompleteChunksUpload(request);
+            return _mapper.Map<SaveFileResponseModel>(result);
+        }
+
         public async Task Delete(RecordFileModel file)
         {
             var store = _storeFactory.CreateDefault();

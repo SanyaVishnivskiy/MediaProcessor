@@ -9,5 +9,7 @@ namespace Core.Business.Files.Component.Models
         Task<SaveFileResponseModel> Save(FileModel file);
         Task<Stream> Download(RecordFileModel file);
         Task Delete(RecordFileModel file);
+        Task<SaveFileResponseModel> SaveChunk(FileModel file);
+        Task<SaveFileResponseModel> CompleteChunksUpload(CompleteChunksUploadModel model);
     }
 }

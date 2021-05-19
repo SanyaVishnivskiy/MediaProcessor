@@ -42,5 +42,34 @@ namespace Core.Controllers
                 Stream = stream
             };
         }
+
+        [HttpPost]
+        [Route("chunks")]
+        public async Task<ActionResult> UploadChunk([FromForm]FileChunkDTO chunk)
+        {
+            using (var stream = chunk.File.OpenReadStream())
+            {
+                await _facade.SaveFileChunk(FormFileModel(chunk, stream));
+            }
+
+            return Ok();
+        }
+
+        private FileModel FormFileModel(FileChunkDTO file, System.IO.Stream stream)
+        {
+            return new FileModel
+            {
+                FileName = file.Number + file.FileId,
+                Stream = stream
+            };
+        }
+
+        [HttpPost]
+        [Route("chunks/complete")]
+        public async Task<ActionResult> UploadChunksComplete([FromBody] CompleteChunksUploadDTO dto)
+        {
+            await _facade.CompleteChunksUpload(_mapper.Map<CompleteChunksUploadModel>(dto));
+            return Ok();
+        }
     }
 }

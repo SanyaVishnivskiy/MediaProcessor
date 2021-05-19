@@ -51,9 +51,7 @@ export const ActionsPage = (props: ActionsPageProps) => {
     }
 
     const onSelectedActionsChange = (selectedActions: IAction[]) => {
-        const json = JSON.stringify(selectedActions);
-        const actions = JSON.parse(json) as IAction[];
-        setSelectedActions(actions);
+        setSelectedActions([...selectedActions]);
     }
 
     useEffect(() =>{

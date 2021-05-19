@@ -31,6 +31,7 @@ namespace Core.Configuration.DI
                 .Bind(localFileStoreOptions);
 
             Directory.CreateDirectory(localFileStoreOptions.BaseFilePath);
+            Directory.CreateDirectory(localFileStoreOptions.TempBaseFilePath);
 
             services.AddSingleton(localFileStoreOptions);
         }

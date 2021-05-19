@@ -14,6 +14,9 @@ namespace Core.Business.Files.Configuration
 
             CreateMap<SaveFileResponse, SaveFileResponseModel>()
                 .ReverseMap();
+
+            CreateMap<CompleteChunksUploadRequest, CompleteChunksUploadModel>()
+                .ReverseMap();
         }
     }
 }
