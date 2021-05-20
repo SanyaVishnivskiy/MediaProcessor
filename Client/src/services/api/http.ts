@@ -12,19 +12,8 @@ const get = async (uri: string) => {
     }
 }
 
-const download = async (uri: string): Promise<Blob> => {
-    try {
-        const res = await axios({
-            url: baseUri + uri, 
-            method: 'GET',
-            responseType: 'blob'
-        });
-        
-        return new Blob([res.data]);;
-    } catch (e) {
-        console.log(e);
-        throw new Error(e);
-    }
+const getDownloadLink = (uri: string): string => {
+    return baseUri + uri;
 }
 
 const post = async (uri: string, body: any) => {
@@ -62,6 +51,6 @@ export {
     get,
     post,
     put,
-    download,
+    getDownloadLink,
     httpDelete
 };

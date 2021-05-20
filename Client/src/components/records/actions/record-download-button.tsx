@@ -9,7 +9,8 @@ export const RecordDownloadButton = (props: RecordDownloadButtonProps) => {
     const service = new RecordsService();
 
     const download = async (): Promise<void> => {
-        await service.download(props.record);
+        const link = service.getDownloadLink(props.record);
+        window.open(link, "_blank");
     }
     
     return (

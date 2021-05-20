@@ -26,9 +26,8 @@ export class RecordsService {
         const response = await http.put(this.uriWithId(record.id), record);
     }
 
-    async download(record: IRecord): Promise<void> {
-        const response = await http.download(this.uriWithId(record.id) + "/download");
-        saveAs(response, record.fileName);
+    getDownloadLink(record: IRecord): string {
+        return http.getDownloadLink(this.uriWithId(record.id) + "/download");
     }
 
     async delete(recordId: string): Promise<void> {
