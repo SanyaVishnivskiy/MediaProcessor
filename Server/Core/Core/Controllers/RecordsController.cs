@@ -42,6 +42,11 @@ namespace Core.Controllers
         public async Task<ActionResult> GetById(string id)
         {
             var result = await _facade.GetById(id);
+            if (result == null)
+            {
+                return NotFound();
+            }
+
             return Ok(_mapper.Map<RecordDTO>(result));
         }
 

@@ -14,13 +14,16 @@ namespace Core.Business.Records.Facade
     {
         private readonly IRecordsComponent _recordComponent;
         private readonly IFilesComponent _filesComponent;
+        private readonly IRecordJobComponent _jobComponent;
 
         public RecordsComponentFacade(
             IRecordsComponent recordComponent,
-            IFilesComponent filesComponent)
+            IFilesComponent filesComponent,
+            IRecordJobComponent jobComponent)
         {
             _recordComponent = recordComponent ?? throw new ArgumentNullException(nameof(recordComponent));
             _filesComponent = filesComponent ?? throw new ArgumentNullException(nameof(filesComponent));
+            _jobComponent = jobComponent ?? throw new ArgumentNullException(nameof(jobComponent));
         }
 
         public Task<SearchResult<RecordModel>> Get(Pagination pagination)
@@ -48,8 +51,16 @@ namespace Core.Business.Records.Facade
             var cloned = file.CloneWithFileName(RandomFileName(file.FileName));
             var response = await _filesComponent.Save(cloned);
 
+            await AddRecord(response, file);
+        }
+
+        private async Task AddRecord(SaveFileResponseModel response, FileModel file)
+        {
             var record = MapToRecord(response, file);
+            record.TrySetPreview();
             await _recordComponent.AddDefault(record);
+
+            await SubmitPreviewGenerationIfNeeded(record);
         }
 
         private string RandomFileName(string fileName)
@@ -66,13 +77,25 @@ namespace Core.Business.Records.Facade
         {
             return new RecordModel
             {
+                Id = Guid.NewGuid().ToString(),
                 FileName = fileName,
                 File = new RecordFileModel
                 {
+                    Id = Guid.NewGuid().ToString(),
                     FileStoreSchema = response.FileStoreSchema,
                     RelativePath = response.RelativePath
                 }
             };
+        }
+
+        private Task SubmitPreviewGenerationIfNeeded(RecordModel record)
+        {
+            if (record.Preview != null)
+            {
+                return Task.CompletedTask;
+            }
+
+            return _jobComponent.SubmitPreviewGeneration(record);
         }
 
         public Task<SaveFileResponseModel> SaveFileChunk(FileModel file)
@@ -84,15 +107,37 @@ namespace Core.Business.Records.Facade
         {
             var cloned = model.CloneWithFileName(RandomFileName(model.FileName));
             var result = await _filesComponent.CompleteChunksUpload(cloned);
-            var record = MapToRecord(result, model.FileName);
-            await _recordComponent.AddDefault(record);
+            await AddRecord(result, FileModel.From(model));
         }
 
         public async Task Delete(string id)
         {
             var record = await GetById(id);
-            await _filesComponent.Delete(record.File);
             await _recordComponent.Delete(id);
+            await _filesComponent.Delete(record.File);
+            await _filesComponent.Delete(record.Preview);
+        }
+
+        public async Task SetPreview(string recordId, FileModel file)
+        {
+            var record = await GetById(recordId);
+            var preview = record.Preview;
+            var response = await SaveFile(file);
+            await SetPreviewForRecord(record, response);
+
+            await _filesComponent.Delete(preview);
+        }
+
+        private Task<SaveFileResponseModel> SaveFile(FileModel file)
+        {
+            return _filesComponent.Save(file);
+        }
+
+        private async Task SetPreviewForRecord(RecordModel record, SaveFileResponseModel response)
+        {
+            var recordFromSavedFile = MapToRecord(response, "");
+            record.Preview = recordFromSavedFile.File;
+            await _recordComponent.Update(record);
         }
     }
 }

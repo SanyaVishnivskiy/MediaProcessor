@@ -12,27 +12,30 @@ namespace FileProcessor.Actions
     public class ActionHandlerResult
     {
         public bool Success { get; }
+        public bool CreateNewRecord { get; }
         public Exception Exception { get; }
         public string ResultFilePath { get; }
 
         public ActionHandlerResult(
             bool success,
             Exception exception,
-            string resultFilePath)
+            string resultFilePath,
+            bool createNewRecord = true)
         {
             Success = success;
             Exception = exception;
             ResultFilePath = resultFilePath;
+            CreateNewRecord = createNewRecord;
         }
 
-        public static ActionHandlerResult Successful(string resultFilePath)
+        public static ActionHandlerResult Successful(string resultFilePath, bool createNewRecord = true)
         {
-            return new ActionHandlerResult(true, null, resultFilePath);
+            return new ActionHandlerResult(true, null, resultFilePath, createNewRecord);
         }
 
         public static ActionHandlerResult Failed(Exception exception = null)
         {
-            return new ActionHandlerResult(false, exception, null);
+            return new ActionHandlerResult(false, exception, null, false);
         }
     }
 }

@@ -14,10 +14,20 @@ namespace Core.DataAccess.Records.DB
         {
         }
 
+        public Task<Record> GetByIdAsNoTracking(string id)
+        {
+            return Set
+                .Include(x => x.File)
+                .Include(x => x.Preview)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public override Task<Record> GetById(string id)
         {
             return Set
                 .Include(x => x.File)
+                .Include(x => x.Preview)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -25,7 +35,36 @@ namespace Core.DataAccess.Records.DB
         {
             return Get(
                 pagination,
-                query => query.Include(x => x.File));
+                query => query
+                    .Include(x => x.File)
+                    .Include(x => x.Preview)
+                    .AsNoTracking());
+        }
+
+        public override Task Delete(Record entity)
+        {
+            Set.Remove(entity);
+            Context.Files.Remove(entity.File);
+
+            if (IsPreviewSameFile(entity))
+            {
+                Context.Files.Remove(entity.Preview);
+            }
+
+            return Task.CompletedTask;
+        }
+
+        private bool IsPreviewSameFile(Record entity)
+        {
+            return entity.Preview?.Id != null && entity.Preview.Id != entity.File.Id;
+        }
+
+        public async Task DeletePreview(string id)
+        {
+            var record = await GetById(id);
+            var preview = record.Preview;
+            record.Preview = null;
+            Context.Files.Remove(preview);
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using FileProcessor.Actions.Base;
+using System;
+using System.IO;
 
 namespace FileProcessor.Actions.Resize
 {
@@ -9,5 +11,13 @@ namespace FileProcessor.Actions.Resize
         public string OutputPath { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
+
+        public string GenerateOuputFileName()
+        {
+            return !string.IsNullOrEmpty(OutputPath)
+                ? OutputPath
+                : Guid.NewGuid().ToString() + $"_resized_{Width}x{Height}"
+                    + Path.GetExtension(InputPath);
+        }
     }
 }

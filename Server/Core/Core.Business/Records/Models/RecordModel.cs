@@ -5,5 +5,6 @@
         public string Id { get; set; }
         public string FileName { get; set; }
         public RecordFileModel File { get; set; }
+        public RecordFileModel Preview { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 const getfileStorePrefix = (schema: string) => {
     let filesPrefix = "files/";
-    if (schema == "local") {
+    if (!schema || schema == "local") {
         filesPrefix += "local/"
     }
 

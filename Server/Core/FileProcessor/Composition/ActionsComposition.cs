@@ -1,5 +1,7 @@
-﻿using Core.Common.Models.Configurations;
+﻿using Core.Common.Media;
+using Core.Common.Models.Configurations;
 using FileProcessor.Actions;
+using FileProcessor.Actions.Preview;
 using FileProcessor.Actions.Resize;
 using FileProcessor.Actions.Unknown;
 using FileProcessor.Files;
@@ -27,6 +29,7 @@ namespace FileProcessor.Composition
         private static void ComposeHandlers(IServiceCollection services)
         {
             services.AddTransient<ResizeActionHandler>();
+            services.AddTransient<GeneratePreviewActionHandler>();
             services.AddTransient<UnknownActionHandler>();
         }
 
@@ -49,6 +52,7 @@ namespace FileProcessor.Composition
             ));
 
             services.AddTransient<ILocalRecordsComponent, LocalRecordComponent>();
+            services.AddTransient<IExtensionToMediaTypeMapper, ExtensionToMediaTypeMapper>();
             services.AddTransient<IActionsMappings, ActionsMappings>();
             services.AddTransient<IActionsHandlerFactory, ActionsHandlerFactory>();
             services.AddTransient<IActionsProcessorFacade, ActionsProcessorFacade>();

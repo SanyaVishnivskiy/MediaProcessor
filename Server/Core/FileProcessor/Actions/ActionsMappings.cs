@@ -1,4 +1,6 @@
-﻿using FileProcessor.Actions.Base;
+﻿using Core.Common.Media;
+using FileProcessor.Actions.Base;
+using FileProcessor.Actions.Preview;
 using FileProcessor.Actions.Resize;
 using FileProcessor.Actions.Unknown;
 using System;
@@ -19,6 +21,11 @@ namespace FileProcessor.Actions
                     typeof(ResizeActionHandler),
                     extensions: new [] { ".jpeg", ".png" },
                     mediaTypes: new MediaType[] { MediaType.Image, MediaType.Video}
+                )},
+            { ActionType.GeneratePreview, new ActionMap(
+                    new GeneratePreviewAction(),
+                    typeof(GeneratePreviewActionHandler),
+                    mediaTypes: new MediaType[] { MediaType.Video}
                 )},
             { ActionType.Unknown, new ActionMap(
                     new UnknownAction(),

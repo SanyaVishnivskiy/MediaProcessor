@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { ActionType, IAction, ResizeAction } from "../../../../entities/actions/models";
+import { ActionType, GeneratePreviewAction, IAction, ResizeAction } from "../../../../entities/actions/models";
+import { IRecord } from "../../../../entities/records/models";
 import { ActionInputDropdown } from "./action-input-dropdown";
+import { PreviewActionInput } from "./inputs/preview-action-input";
 import { ResizeActionInput } from "./inputs/resize-action-input";
 
 interface ActionInputProps {
+    record: IRecord,
     index: number,
     action: IAction,
     possibleAction: IAction[],
@@ -35,12 +38,27 @@ export const ActionInput = (props: ActionInputProps) => {
         </div>);
     }
 
+    const generatePreviewInput = () => {
+        return (
+            <div>
+                <PreviewActionInput 
+                    action={props.action as GeneratePreviewAction}
+                    onActionChange={onActionChange}
+                    recordId={props.record.id}/>
+            </div>
+        );
+    }
+
     const renderInputFor = (type: ActionType) => {
         switch (props.action.type) {
             case ActionType.NotSelected:
                 return notSelectedActionInput();
             case ActionType.Resize:
                 return resizeActionInput();
+            case ActionType.GeneratePreview:
+                return generatePreviewInput();
+            default:
+                return notSelectedActionInput();
         };
     }
 

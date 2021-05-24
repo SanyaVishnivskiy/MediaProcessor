@@ -74,15 +74,35 @@ namespace Core.Business.Records.Component
 
         public async Task<RecordModel> GetById(string id)
         {
-            var record = await _context.Records.GetById(id);
+            var record = await _context.Records.GetByIdAsNoTracking(id);
             return _mapper.Map<RecordModel>(record);
         }
 
         public async Task Update(RecordModel model)
         {
-            var record = _mapper.Map<Record>(model);
-            await _context.Records.Update(record);
-            await _context.SaveChanges();
+            try
+            {
+                var record = await _context.Records.GetById(model.Id);
+                if (HasPreviewChanged(record, model))
+                {
+                    await _context.Records.DeletePreview(record.Id);
+                }
+
+                var newRecord = _mapper.Map<RecordModel, Record>(model, record);
+                await _context.Records.Update(newRecord);
+                await _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+
+            }
+        }
+
+        private bool HasPreviewChanged(Record record, RecordModel model)
+        {
+            return record.Preview?.Id != null
+                && model.Preview?.Id != null
+                && record.Preview.Id != model.Preview?.Id;
         }
     }
 }

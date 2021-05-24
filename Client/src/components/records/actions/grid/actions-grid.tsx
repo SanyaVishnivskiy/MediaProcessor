@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ActionType, IAction } from "../../../../entities/actions/models";
+import { IRecord } from "../../../../entities/records/models";
 import { ActionInput } from "./action-input";
 
 interface ActionsGridProps {
+    record: IRecord
     possibleActions: IAction[]
     selectedActions: IAction[]
     onSelectedActionsChange: (selectedActions: IAction[]) => void
@@ -39,6 +41,7 @@ export const ActionsGrid = (props: ActionsGridProps) => {
             {actions && actions.length > 0
             ? actions.map((a, i) => {
                 return <ActionInput
+                    record={props.record}
                     key={i}
                     index={i}
                     action={a}

@@ -7,6 +7,7 @@ export interface IAction {
 export enum ActionType {
     NotSelected = 'NotSelected',
     Resize = 'Resize',
+    GeneratePreview = 'GeneratePreview',
 }
 
 export interface IRunActionsRequest {
@@ -27,6 +28,24 @@ export class ResizeAction implements IAction {
         clone.outputPath = this.outputPath;
         clone.height = this.height;
         clone.width = this.width;
+
+        return clone;
+    }
+}
+
+export class GeneratePreviewAction implements IAction {
+    type: ActionType = ActionType.GeneratePreview
+    inputPath: string = ""
+    outputPath: string = ""
+    recordId: string = ""
+    timeOfSnapshot: string = ""
+
+    clone() : GeneratePreviewAction {
+        const clone = new GeneratePreviewAction();
+        clone.inputPath = this.inputPath;
+        clone.outputPath = this.outputPath;
+        clone.recordId = this.recordId;
+        clone.timeOfSnapshot = this.timeOfSnapshot;
 
         return clone;
     }

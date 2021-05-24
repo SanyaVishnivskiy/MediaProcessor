@@ -10,11 +10,13 @@ interface RecordImageBlock {
 
 export const RecordImageBlock = ({record, height, width}: RecordImageBlock) => {
     const getFilePath = () => {
-        const fileStorePrefix = filesApi.getfileStorePrefix(record.file.fileStoreSchema);
-        return http.baseUri + fileStorePrefix + record.file.relativePath;
+        const fileStorePrefix = filesApi.getfileStorePrefix(record.preview?.fileStoreSchema);
+        return http.baseUri + fileStorePrefix + record.preview?.relativePath;
     }
 
     return (
-        <img src={getFilePath()} alt="preview" height={height} width={width}/>
+        <div className="record-image-container">
+            <img className="record-image" src={getFilePath()} alt="preview" height={height} width={width}/>
+        </div>
     );
 }

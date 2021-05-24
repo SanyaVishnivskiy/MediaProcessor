@@ -5,6 +5,8 @@ import { RecordFieldsBlock } from "../../../components/records/Details/record-fi
 import { RecordImageBlock } from "../../../components/records/main/record-image-block";
 import { IRecord } from "../../../entities/records/models";
 import { RecordsService } from "../../../services/records/records-service";
+import "./record-edit-page.css"
+import history from "../../../entities/search/history";
 
 interface RecordEditPageRouteParams {
     id: string
@@ -21,6 +23,9 @@ export const RecordEditPage = (props: RecordEditPageProps) => {
 
     const fetchRecord = async () : Promise<void> => {
         const record = await service.getById(id);
+        if (!record) {
+            history.push(`/`);
+        }
         setRecord(record);
     }
 
@@ -44,7 +49,9 @@ export const RecordEditPage = (props: RecordEditPageProps) => {
                 ? (<h2>Fetching...</h2>)
                 : (<div>
                     <div>Record:</div>
-                    <RecordImageBlock record={record} height="200"/>
+                    <div className="record-edit-image-container">
+                        <RecordImageBlock record={record}/>
+                    </div>
                     <RecordActionsBlock record={record} />
                     <RecordFieldsBlock record={record} onChange={onChange}/>
                     <button onClick={saveRecord}>Save</button>

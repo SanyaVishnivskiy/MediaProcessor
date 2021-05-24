@@ -17,9 +17,13 @@ export class RecordsService {
         return response.data as SearchResult<IRecord>;
     }
 
-    async getById(id: string): Promise<IRecord> {
-        const response = await http.get(this.uriWithId(id));
-        return response.data as IRecord;
+    async getById(id: string): Promise<IRecord | null> {
+        try {
+            const response = await http.get(this.uriWithId(id));
+            return response.data as IRecord;
+        } catch (e){
+            return null;
+        } 
     }
 
     async save(record: IRecord): Promise<void> {

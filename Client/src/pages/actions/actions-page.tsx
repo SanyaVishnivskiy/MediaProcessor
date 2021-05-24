@@ -61,14 +61,20 @@ export const ActionsPage = (props: ActionsPageProps) => {
 
     return (
         <div>
-            <h1>Actions:</h1>
+            { record && possibleActions 
+                ?  (<div>
+                        <h1>Actions:</h1>
 
-            <ActionsGrid
-                possibleActions={possibleActions}
-                selectedActions={selectedActions}
-                onSelectedActionsChange={onSelectedActionsChange}/>
+                        <ActionsGrid
+                            possibleActions={possibleActions}
+                            selectedActions={selectedActions}
+                            onSelectedActionsChange={onSelectedActionsChange}
+                            record={record}/>
 
-            <button onClick={() => runActions()}>Run</button>
+                        <button onClick={() => runActions()}>Run</button>
+                    </div>)
+                : (<h3>Fetching...</h3>)
+            }
         </div>
     );
 }

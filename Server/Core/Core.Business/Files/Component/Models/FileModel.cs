@@ -2,10 +2,9 @@
 
 namespace Core.Business.Files.Component.Models
 {
-    public class FileModel
+    public class FileModel : FileModelStream
     {
         public string FileName { get; set; }
-        public Stream Stream { get; set; }
 
         public FileModel CloneWithFileName(string name)
         {
@@ -15,5 +14,18 @@ namespace Core.Business.Files.Component.Models
                 Stream = Stream
             };
         }
+
+        public static FileModel From(CompleteChunksUploadModel model)
+        {
+            return new FileModel
+            {
+                FileName = model.FileName
+            };
+        }
+    }
+
+    public class FileModelStream
+    {
+        public Stream Stream { get; set; }
     }
 }

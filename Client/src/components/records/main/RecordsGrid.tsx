@@ -1,7 +1,7 @@
 import React from "react";
 import { IRecord } from "../../../entities/records/models"
 import { RecordBlock } from "./RecordBlock";
-
+import "./records.css"
 
 interface RecordsGridProps {
     records: IRecord[]
@@ -14,9 +14,9 @@ export const RecordsGrid = ({records}: RecordsGridProps) => {
                 ? (<h3>No records found</h3>)
                 : (
                 <div>
-                    <div>
-                        {records.map(x => 
-                            <RecordBlock record={x}/>
+                    <div className="records-container">
+                        {records.map((x, i) => 
+                            <RecordBlock record={x} key={i}/>
                         )}
                     </div>          
                 </div>)

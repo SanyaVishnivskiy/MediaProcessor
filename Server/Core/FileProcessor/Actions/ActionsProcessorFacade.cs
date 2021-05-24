@@ -63,7 +63,11 @@ namespace FileProcessor.Actions
             if (!result.Success)
                 return;
 
-            await AddRecord(action, result);
+            if (result.CreateNewRecord)
+            {
+                await AddRecord(action, result);
+            }
+
             await DeleteLocalFile(result.ResultFilePath);
         }
 
@@ -74,17 +78,14 @@ namespace FileProcessor.Actions
             foreach (var action in request.Actions)
             {
                 action.InputPath = downloadResult.LocalPath;
-                action.OutputPath = BuildOutputPath(action.InputPath, action.OutputPath);
+                action.OutputPath = BuildOutputPath(action);
             }
         }
 
-        private string BuildOutputPath(string inputPath, string outputFileName)
+        private string BuildOutputPath(IAction action)
         {
-            var directory = Path.GetDirectoryName(inputPath);
-            var fileName = !string.IsNullOrEmpty(outputFileName)
-                ? outputFileName
-                : Guid.NewGuid().ToString() + "_output"
-                    + Path.GetExtension(inputPath);
+            var directory = Path.GetDirectoryName(action.InputPath);
+            var fileName = action.GenerateOuputFileName();
 
             return Path.Combine(directory, fileName);
         }

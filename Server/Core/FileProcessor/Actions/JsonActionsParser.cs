@@ -1,4 +1,5 @@
-﻿using FileProcessor.Actions.Base;
+﻿using Core.Common.Extensions;
+using FileProcessor.Actions.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -31,13 +32,13 @@ namespace FileProcessor.Actions
 
         private void ParseRequestInfo(JObject parsed, ActionsRequest result)
         {
-            result.RecordId = parsed["recordId"].Value<string>();
+            result.RecordId = parsed.GetPropertyValueCaseInsensetive<string>("recordId");
         }
 
         private void ParseActions(JObject parsed, ActionsRequest result)
         {
             var actions = new List<IAction>();
-            var jActions = parsed["actions"] as JArray ?? new JArray();
+            var jActions = parsed.GetPropertyValueCaseInsensetive<object>("actions") as JArray ?? new JArray();
 
             foreach (var jAction in jActions)
             {
@@ -56,7 +57,7 @@ namespace FileProcessor.Actions
 
         private ActionType ParseType(JToken action)
         {
-            var type = action["type"].Value<string>();
+            var type = action.GetPropertyValueCaseInsensetive<string>("type");
             if (Enum.TryParse<ActionType>(type, true, out var result))
             {
                 return result;

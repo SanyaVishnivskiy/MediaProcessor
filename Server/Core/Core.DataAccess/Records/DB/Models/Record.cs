@@ -12,5 +12,7 @@ namespace Core.DataAccess.Records.DB.Models
         public string FileName { get; set; }
 
         public RecordFile File { get; set; }
+
+        public RecordFile Preview { get; set; }
     }
 }

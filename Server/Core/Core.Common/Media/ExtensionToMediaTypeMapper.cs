@@ -1,23 +1,23 @@
-﻿using System;
+﻿using Core.Common.Media;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using MimeTypeMapper = MimeTypeMap.List.MimeTypeMap;
 
-namespace FileProcessor.Actions.Base
+namespace Core.Common.Media
 {
-    public enum MediaType
+    public interface IExtensionToMediaTypeMapper
     {
-        Other = 0,
-        Audio = 1,
-        Video = 2,
-        Image = 3,
-        Gif = 4,
+        List<MediaType> Map(string extension);
     }
 
-    public class ExtensionToMediaTypeMapper
+    public class ExtensionToMediaTypeMapper : IExtensionToMediaTypeMapper
     {
         public List<MediaType> Map(string extension)
         {
+            if (string.IsNullOrEmpty(extension))
+                return new List<MediaType>();
+
             var types = MimeTypeMapper.GetMimeType(extension);
             return types
                 .Select(MapMimeType)

@@ -3,4 +3,27 @@
     border: 1px solid black;
     text-decoration: none;
     color: black;
+    background-color: aqua;
+    margin-bottom: 20px;
+    width: 30%;
+    min-width: 100px;
+}
+
+.record-block img {
+    /* text-align: center; */
+}
+
+.records-container {
+    margin-bottom: 20px;
+}
+
+.record-image {
+    max-width: 100%;
+    height: auto;
+    width: auto;
+}
+
+.record-image-container {
+    margin: 5px auto;
+    width: 90%;
 }

@@ -70,10 +70,34 @@ namespace Core.DataAccess.Records.Storage
             return Path.Combine(_options.TempBaseFilePath, path);
         }
 
-        public Task Delete(RecordFile file)
+        public async Task Delete(RecordFile file)
         {
-            var path = GetFileLocation(file);
-            return Delete(path);
+            if (file == null)
+                return;
+
+            if (await DeleteSafely(file))
+            {
+                return;
+            }
+
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
+            await DeleteSafely(file);
+        }
+
+        private async Task<bool> DeleteSafely(RecordFile file)
+        {
+            try
+            {
+                var path = GetFileLocation(file);
+                await Delete(path);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         private async Task DeleteFiles(List<string> fullPaths)

@@ -37,6 +37,7 @@ namespace Core.DataAccess.Base.Database
             Func<IQueryable<T>, IQueryable<T>> modify = null)
         {
             var query = modify?.Invoke(Set) ?? Set;
+            query = query.AsNoTracking();
 
             var results = await Paginate(query, pagination).ToListAsync();
             var count = await query.CountAsync();

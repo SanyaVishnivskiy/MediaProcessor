@@ -1,4 +1,6 @@
-﻿using Core.Business.Configuration;
+﻿using Core.Adapters;
+using Core.Business.Configuration;
+using Core.Business.Records.Facade;
 using Core.Common.Models.Configurations;
 using FileProcessor.Composition;
 using Microsoft.Extensions.Configuration;
@@ -40,6 +42,8 @@ namespace Core.Configuration.DI
         {
             var registrations = new DiBusinessRegistrations();
             registrations.Register(services);
+
+            services.AddTransient<IRecordJobComponent, JobsComponentAdapter>();
         }
     }
 }

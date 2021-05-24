@@ -37,10 +37,11 @@ namespace FileProcessor.Files
             if (record is null)
                 throw new ItemNotFoundException($"Record {recordId} does not exists");
 
-            var fileStream = await _facade.Download(record);
-
-            var path = await Save(fileStream, record);
-            return new DownloadingResult(record, path);
+            using (var stream = await _facade.Download(record))
+            {
+                var path = await Save(stream, record);
+                return new DownloadingResult(record, path);
+            }
         }
 
         private async Task<string> Save(Stream stream, RecordModel record)

@@ -16,6 +16,7 @@ namespace Core.Business.Records.Facade
         Task<SaveFileResponseModel> SaveFileChunk(FileModel file);
         Task CompleteChunksUpload(CompleteChunksUploadModel model);
         Task Create(FileModel file);
+        Task SetPreview(string recordId, FileModel file);
         Task Update(RecordModel model);
         Task Delete(string id);
     }

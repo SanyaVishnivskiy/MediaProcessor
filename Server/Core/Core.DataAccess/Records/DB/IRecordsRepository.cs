@@ -2,7 +2,6 @@
 using Core.Common.Models.Search;
 using Core.DataAccess.Base.Database;
 using Core.DataAccess.Records.DB.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Core.DataAccess.Records.DB
@@ -10,5 +9,7 @@ namespace Core.DataAccess.Records.DB
     public interface IRecordsRepository : IRepository<Record>
     {
         Task<SearchResult<Record>> GetWithAllDependencies(Pagination pagination);
+        Task<Record> GetByIdAsNoTracking(string id);
+        Task DeletePreview(string id);
     }
 }
