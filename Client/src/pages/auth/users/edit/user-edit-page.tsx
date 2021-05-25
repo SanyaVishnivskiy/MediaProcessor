@@ -61,6 +61,19 @@ export const UserEditPage = (props: UserEditPageProps) => {
         setSaveResponse("Saved successfully");
     }
 
+    const deleteUser = async () => {
+        if (!user || !user?.id)
+            return;
+        
+        const response = await service.delete(user.id);
+        if (!response.succeeded) {
+            setError(response.error);
+            return;
+        }
+
+        Redirect.toUsers();
+    }
+
     useEffect(() => {
         fetchUser();
     },[])
@@ -86,10 +99,19 @@ export const UserEditPage = (props: UserEditPageProps) => {
         }
     }
 
+    if (!auth.isAdmin()){
+        return (
+            <div>
+                <UserEditForm isNew={false} user={getUserState() as UserInput} onChange={onUserChange} readonly={true}/>
+            </div>
+        );
+    }
+
     return (
         <div>
             <UserEditForm isNew={false} user={getUserState() as UserInput} onChange={onUserChange}/>
             <button onClick={() => save()}>Save</button>
+            <button onClick={() => deleteUser()}>Delete</button>
             <div style={{color: 'red'}}>{error}</div>
             <div style={{color: 'green'}}>{saveResponse}</div>
         </div>

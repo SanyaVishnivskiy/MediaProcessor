@@ -2,6 +2,7 @@
 using Core.Business.Auth.Models;
 using Core.DataAccess.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,16 @@ namespace Core.Business.Auth.Component
         {
             var user = await _userManager.FindByIdAsync(id);
             return _mapper.Map<UserModel>(user);
+        }
+
+        public async Task<List<UserModel>> Search(SearchUsersContext context)
+        {
+            var users = await _userManager.Users
+                .Where(x => x.EmployeeId.Contains(context.Search))
+                .Take(context.PageSize)
+                .ToListAsync();
+
+            return _mapper.Map<List<UserModel>>(users);
         }
 
         public async Task<UpdateUserResult> Update(UpdateUserModel model)
@@ -99,6 +110,13 @@ namespace Core.Business.Auth.Component
             }
 
             return await _userManager.AddToRolesAsync(user, toAdd);
+        }
+
+        public async Task<DeleteUserResult> Delete(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var result = await _userManager.DeleteAsync(user);
+            return new DeleteUserResult(result);
         }
     }
 }

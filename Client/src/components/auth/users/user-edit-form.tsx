@@ -7,7 +7,8 @@ import { InputElement } from "../../common/inputs/input-element";
 interface UserEditFromProps {
     isNew: boolean,
     user: UserInput,
-    onChange: (user : UserInput) => void
+    onChange: (user : UserInput) => void,
+    readonly? : boolean
 }
 
 const possibleRoles = [
@@ -59,14 +60,15 @@ export const UserEditForm = (props: UserEditFromProps) => {
                 : (<InputElement id={"Id"} inputType={"text"} label={"Id:"} value={props.user.id} disabled={true} onChange={onIdChange}
                 />)
             }
-            <InputElement id={"employeeId"} inputType={"text"} label={"Employee Id:"} value={props.user.employeeId} onChange={onEmployeeIdChange} />
-            <InputElement id={"email"} inputType={"email"} label={"Email:"} value={props.user.email} onChange={onEmailChange} />
-            <InputElement id={"phoneNumber"} inputType={"text"} label={"Phone Number:"} value={props.user.phoneNumber} onChange={onPhoneNumberChange} />
-            <InputElement id={"pasword"} inputType={"password"} label={"Password:"} value={props.user.password} onChange={onPasswordChange} />
-            <InputElement id={"confirmPasword"} inputType={"password"} label={"Confirm Password:"} value={props.user.confirmPassword} onChange={onConfirmPasswordChange} />
+            <InputElement id={"employeeId"} inputType={"text"} label={"Employee Id:"} value={props.user.employeeId} onChange={onEmployeeIdChange} disabled={props.readonly} />
+            <InputElement id={"email"} inputType={"email"} label={"Email:"} value={props.user.email} onChange={onEmailChange} disabled={props.readonly}/>
+            <InputElement id={"phoneNumber"} inputType={"text"} label={"Phone Number:"} value={props.user.phoneNumber} onChange={onPhoneNumberChange} disabled={props.readonly}/>
+            <InputElement id={"pasword"} inputType={"password"} label={"Password:"} value={props.user.password} onChange={onPasswordChange} disabled={props.readonly}/>
+            <InputElement id={"confirmPasword"} inputType={"password"} label={"Confirm Password:"} value={props.user.confirmPassword} onChange={onConfirmPasswordChange} disabled={props.readonly}/>
             <div>
                 <label>Roles:</label>
                 <Select
+                    disabled={props.readonly}
                     options={convertToSelect(possibleRoles)}
                     values={convertToSelect(props.user.roles)}
                     multi

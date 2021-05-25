@@ -5,6 +5,7 @@ using Core.Models.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -72,19 +73,15 @@ namespace Core.Controllers
         }
 
         [HttpGet]
-        [Route("employee/{id}")]
-        public async Task<IActionResult> GetByName(string id)
+        [Authorize(Roles="admin")]
+        public async Task<IActionResult> Search([FromQuery]SearchUserContextDTO context)
         {
-            if (string.IsNullOrEmpty(id))
-                return BadRequest("Invalid id " + id);
+            if (context == null)
+                return BadRequest("Invalid request params");
 
-            var result = await _component.GetById(id);
-            if (result is null)
-            {
-                return NotFound();
-            }
+            var result = await _component.Search(_mapper.Map<SearchUsersContext>(context));
 
-            return Ok(_mapper.Map<UserDTO>(result));
+            return Ok(_mapper.Map<IEnumerable<UserDTO>>(result));
         }
 
         [HttpPut]
@@ -107,6 +104,23 @@ namespace Core.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = "admin")]
+        [Route("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return BadRequest("Invalid id " + id);
+
+            var result = await _component.Delete(id);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return NoContent();
         }
     }
 }

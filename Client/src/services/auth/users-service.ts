@@ -1,5 +1,5 @@
 import * as http from "../api/http"
-import { CreateUserModel, LoginModel, LoginResult, UserInput } from "../../entities/auth/models";
+import { CreateUserModel, LoginModel, LoginResult, User, UserInput } from "../../entities/auth/models";
 import { AxiosResponse } from "axios";
 import { Auth } from "./auth";
 import { ApiResponse, ApiResponseWithPayload, failedResponse, failedResponseWithPayload, successResponse, successResponseWithPayload } from "../api/models";
@@ -34,6 +34,24 @@ export class UsersService {
             return successResponse(response.status);
         } catch (e) {
             return this.handleErrorResponse(e);
+        }
+    }
+
+    async delete(userId: string) : Promise<ApiResponse> {
+        try {
+            const response = await http.httpDelete(this.uri + "/" + userId);
+            return successResponse(response.status);
+        } catch (e) {
+            return this.handleErrorResponse(e);
+        }
+    }
+    
+    async search(search: string, pageSize: number): Promise<ApiResponseWithPayload<User[]>> {
+        try {
+            const response = await http.get(`${this.uri}?search=${search}&pageSize=${pageSize}`);
+            return successResponseWithPayload(response.data as User[], response.status);
+        } catch (e) {
+            return this.handleErrorResponseWithPayload(e);
         }
     }
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { UserList } from "../../../../components/auth/users/user-list";
+import { UserSearch } from "../../../../components/auth/users/user-search";
 import { Auth } from "../../../../services/auth/auth";
 import { Redirect } from "../../../../services/navigation/redirect";
 
@@ -15,7 +15,7 @@ export const UsersPage = () => {
         <div>
             <Link to="/new/users">Create</Link>
             <hr />
-            <UserList />
+            <UserSearch />
         </div>
     );
 }

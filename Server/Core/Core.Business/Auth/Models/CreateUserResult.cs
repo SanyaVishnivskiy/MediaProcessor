@@ -28,4 +28,15 @@ namespace Core.Business.Auth.Models
             Errors = result.Errors.Select(x => x.Description).ToList();
         }
     }
+
+    public record DeleteUserResult : CreateUserResult
+    {
+        public DeleteUserResult() { }
+
+        public DeleteUserResult(IdentityResult result)
+        {
+            Succeeded = result.Succeeded;
+            Errors = result.Errors.Select(x => x.Description).ToList();
+        }
+    }
 }

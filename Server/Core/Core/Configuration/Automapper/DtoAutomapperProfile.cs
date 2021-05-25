@@ -34,6 +34,9 @@ namespace Core.Configuration.Automapper
 
             CreateMap<UpdateUserModel, UpdateUserDTO>()
                 .ReverseMap();
+
+            CreateMap<SearchUsersContext, SearchUserContextDTO>()
+                .ReverseMap();
         }
     }
 }
