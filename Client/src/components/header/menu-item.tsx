@@ -1,4 +1,5 @@
 import React from "react";
+import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { RoleName } from "../../entities/auth/models";
 
@@ -14,8 +15,6 @@ export const MenuItem = ({name, path, hidden}: MenuItemProps) => {
     }
 
     return (
-        <li>
-            <Link to={path}>{name}</Link>
-        </li>
+        <Nav.Link href={path}>{name}</Nav.Link>
     );
 }

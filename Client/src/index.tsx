@@ -23,8 +23,6 @@ const isAuthenticated = () => {
 if (!isAuthenticated())
   Redirect.toLogin();
 
-
-
 ReactDOM.render(
   <React.StrictMode>
     <Router history={history}>

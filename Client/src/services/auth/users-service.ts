@@ -58,7 +58,7 @@ export class UsersService {
     private handleErrorResponse(e: any): ApiResponse {
         const response = e as AxiosResponse<any>;
         console.log(JSON.stringify(response));
-        if (!response.status) {
+        if (!response?.status) {
             return failedResponse(500, "Internal server error");
         }
         
@@ -68,7 +68,7 @@ export class UsersService {
     private handleErrorResponseWithPayload<T>(e: any): ApiResponseWithPayload<T> {
         const response = e as AxiosResponse<any>;
         console.log(response);
-        if (!response.status) {
+        if (!response?.status) {
             return failedResponseWithPayload(500, "Internal server error");
         }
         
