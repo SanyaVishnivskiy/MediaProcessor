@@ -1,4 +1,5 @@
 ﻿using Core.Business.Auth.Component;
+using Core.Business.Auth.Initializer;
 using Core.Business.Files.Component;
 using Core.Business.Files.Component.Models;
 using Core.Business.Records.Configuration;
@@ -20,6 +21,7 @@ namespace Core.Business.Configuration
 
         private void RegisterAuth(IServiceCollection services)
         {
+            services.AddTransient<AuthInitializer>();
             services.AddTransient<IAuthComponent, AuthComponent>();
             services.AddTransient<IUserComponent, UserComponent>();
             services.AddTransient<UserManager>();

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Core.Business.Auth.Models
 {
@@ -15,5 +11,7 @@ namespace Core.Business.Auth.Models
         public string Password { get; set; }
 
         public string ConfirmPassword { get; set; }
+
+        public List<string> Roles { get; set; }
     }
 }

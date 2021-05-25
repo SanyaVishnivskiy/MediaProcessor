@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Core.Business.Auth.Models;
 using Core.DataAccess.Auth;
+using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Core.Business.Auth.Component
@@ -23,7 +26,13 @@ namespace Core.Business.Auth.Component
         {
             var user = _mapper.Map<User>(model);
             var result = await _userManager.CreateAsync(user, model.Password);
-            return new CreateUserResult(result);
+            if (!result.Succeeded)
+            {
+                return new CreateUserResult(result);
+            }
+
+            var rolesResult = await SetRoles(user, model.Roles);
+            return new CreateUserResult(rolesResult);
         }
 
         public async Task<UserModel> GetByEmployeeId(string id)
@@ -44,9 +53,15 @@ namespace Core.Business.Auth.Component
             var user = _mapper.Map(model, storedUser);
 
             var response = await _userManager.UpdateAsync(user);
-            if (!response.Succeeded || !model.PasswordChangeNeeded)
+            if (!response.Succeeded)
             {
                 return new UpdateUserResult(response);
+            }
+
+            var rolesResult = await SetRoles(user, model.Roles);
+            if (!response.Succeeded || !model.PasswordChangeNeeded)
+            {
+                return new UpdateUserResult(rolesResult);
             }
 
             return await ChangePassword(user, model.Password);
@@ -62,6 +77,28 @@ namespace Core.Business.Auth.Component
 
             response = await _userManager.AddPasswordAsync(user, password);
             return new UpdateUserResult(response);
+        }
+
+        private async Task<IdentityResult> SetRoles(User user, List<string> roles)
+        {
+            if (roles.Count == 0)
+            {
+                roles.Add("user");
+            }
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            var rolesIntersection = currentRoles.Intersect(roles);
+            var toDelete = currentRoles.Except(rolesIntersection);
+            var toAdd = roles.Except(rolesIntersection);
+
+            var deletionResult = await _userManager.RemoveFromRolesAsync(user, toDelete);
+            if (!deletionResult.Succeeded)
+            {
+                return deletionResult;
+            }
+
+            return await _userManager.AddToRolesAsync(user, toAdd);
         }
     }
 }

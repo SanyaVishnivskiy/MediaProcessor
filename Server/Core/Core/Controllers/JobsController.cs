@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Scheduler;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Core.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class JobsController : ControllerBase

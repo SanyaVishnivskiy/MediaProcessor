@@ -15,6 +15,7 @@ export interface CreateUserModel {
     email: string;
     password: string;
     confirmPassword: string;
+    roles: string[];
 }
 
 export interface User {
@@ -25,12 +26,12 @@ export interface User {
 }
 
 export interface UserInput extends CreateUserModel{
-
 }
 
 export enum RoleName {
     none = "none",
     admin = "admin",
+    employee = "employee"
 }
 
 export interface Role {

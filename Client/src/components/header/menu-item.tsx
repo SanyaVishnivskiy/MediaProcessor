@@ -5,12 +5,12 @@ import { RoleName } from "../../entities/auth/models";
 interface MenuItemProps {
     name: string,
     path: string,
-    roles?: RoleName[]
+    hidden?: boolean
 }
 
-export const MenuItem = ({name, path, roles}: MenuItemProps) => {
-    if (!roles) {
-
+export const MenuItem = ({name, path, hidden}: MenuItemProps) => {
+    if (hidden && hidden === true) {
+        return (<></>);
     }
 
     return (

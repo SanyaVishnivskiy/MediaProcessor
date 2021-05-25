@@ -1,5 +1,7 @@
 using System;
+using Core.Business.Auth.Initializer;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -13,6 +15,7 @@ namespace Core
         {
             var host = CreateHostBuilder(args).Build();
 
+            InitializeDB(host.Services);
             RunScheduler(host.Services);
 
             host.Run();
@@ -22,6 +25,15 @@ namespace Core
         {
             var scheduler = (IScheduler)services.GetService(typeof(IScheduler));
             scheduler.Start().GetAwaiter().GetResult();
+        }
+
+        private static void InitializeDB(IServiceProvider services)
+        {
+            using (var scope = services.CreateScope())
+            {
+                var initializer = (AuthInitializer)scope.ServiceProvider.GetService(typeof(AuthInitializer));
+                initializer.InitializeAsync().GetAwaiter().GetResult();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

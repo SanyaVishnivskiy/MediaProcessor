@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { RoleName } from '../../entities/auth/models';
 import { Auth } from '../../services/auth/auth';
 import { Redirect } from '../../services/navigation/redirect';
@@ -16,6 +15,17 @@ export const Header = (props: HeaderProps) => {
         Redirect.toLogin();
     }
 
+    const openProfile = async () => {
+        const token = auth.getParsedToken();
+        if (!token) {
+            logOut();
+            return;
+        }
+
+        const id = token.getId();
+        Redirect.toUser(id);
+    }
+
     if (window.location.pathname === '/login') return(<></>);
 
     return (
@@ -24,10 +34,11 @@ export const Header = (props: HeaderProps) => {
                 <ul>
                     <MenuItem name="Records" path="/"/>
                     <MenuItem name="Uploads" path="/upload"/>
-                    <MenuItem name="Users" path="/users" roles={[RoleName.admin]}/>
+                    <MenuItem name="Users" path="/users" hidden={!auth.isAdmin()}/>
                 </ul>
             </nav>
             <div>
+                <button onClick={() => openProfile()}>Profile</button>
                 <button onClick={() => logOut()}>Logout</button>
             </div>
             <hr />

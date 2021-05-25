@@ -2,6 +2,7 @@
 using Core.Business.Files.Component.Models;
 using Core.Business.Records.Facade;
 using Core.Models.Files;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace Core.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class FilesController : ControllerBase
     {

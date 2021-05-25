@@ -2,13 +2,16 @@
 using Core.Business.Auth.Component;
 using Core.Business.Auth.Models;
 using Core.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Core.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class UsersController : ControllerBase
     {
@@ -22,6 +25,7 @@ namespace Core.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles="admin")]
         public async Task<IActionResult> Create([FromBody] CreateUserDTO user)
         {
             if (!ModelState.IsValid)
@@ -47,6 +51,11 @@ namespace Core.Controllers
             if (string.IsNullOrEmpty(id))
                 return BadRequest("Invalid id " + id);
 
+            if (!IsAllowedToSee(id))
+            {
+                return StatusCode(403, "You don't have permissions to see this user");
+            }
+
             var result = await _component.GetById(id);
             if (result is null)
             {
@@ -54,6 +63,12 @@ namespace Core.Controllers
             }
 
             return Ok(_mapper.Map<UserDTO>(result));
+        }
+
+        private bool IsAllowedToSee(string id)
+        {
+            return User.IsInRole("admin")
+                 || id == User.FindFirst(ClaimTypes.NameIdentifier).Value;
         }
 
         [HttpGet]
@@ -73,6 +88,7 @@ namespace Core.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles="admin")]
         [Route("{id}")]
         public async Task<IActionResult> Put(string id, [FromBody] UpdateUserDTO dto)
         {

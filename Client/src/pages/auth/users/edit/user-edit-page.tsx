@@ -1,8 +1,11 @@
+import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { UserEditForm } from "../../../../components/auth/users/user-edit-form";
 import { CreateUserModel, UserInput } from "../../../../entities/auth/models";
+import { Auth } from "../../../../services/auth/auth";
 import { UsersService } from "../../../../services/auth/users-service";
+import { Redirect } from "../../../../services/navigation/redirect";
 
 interface UserEditPageRouteParams {
     id: string
@@ -13,6 +16,7 @@ interface UserEditPageProps extends RouteComponentProps<UserEditPageRouteParams>
 
 export const UserEditPage = (props: UserEditPageProps) => {
     const service = new UsersService();
+    const auth = new Auth();
     const id = props.match.params.id;
 
     const [user, setUser] = useState<CreateUserModel | null>(null);
@@ -27,14 +31,12 @@ export const UserEditPage = (props: UserEditPageProps) => {
     const fetchUser = async () => {
         setFetchError(null);
         const response = await service.getById(id);
-
-        if (!response.succeeded && response.status === 404) {
+        if (response.status === 404 || response.status === 403) {
             setFetchError("Not found or you don't have access to see this page");
             return;
         }
 
-        if (!response.succeeded)
-        {
+        if (!response.succeeded) {
             setFetchError(response.error);
             return;
         }
@@ -50,7 +52,6 @@ export const UserEditPage = (props: UserEditPageProps) => {
         setError(null);
 
         const response = await service.update(user);
-        console.log(response);
         if (!response.succeeded)
         {
             setError(response.error);
@@ -70,12 +71,24 @@ export const UserEditPage = (props: UserEditPageProps) => {
         );
 
     if (fetchError) {
-        <h2 style={{color: 'red'}}>{fetchError}</h2>
+        return (<h2 style={{color: 'red'}}>{fetchError}</h2>);
+    }
+
+    const getUserState = () : CreateUserModel => {
+        return {
+            id: user?.id ?? "",
+            employeeId: user?.employeeId ?? "",
+            phoneNumber: user?.phoneNumber ?? "",
+            email: user?.email ?? "",
+            password: user?.password ?? "",
+            confirmPassword: user?.confirmPassword ?? "",
+            roles: user?.roles ?? auth.getParsedToken()?.getRoles() ?? []
+        }
     }
 
     return (
         <div>
-            <UserEditForm isNew={false} user={user as UserInput} onChange={onUserChange}/>
+            <UserEditForm isNew={false} user={getUserState() as UserInput} onChange={onUserChange}/>
             <button onClick={() => save()}>Save</button>
             <div style={{color: 'red'}}>{error}</div>
             <div style={{color: 'green'}}>{saveResponse}</div>

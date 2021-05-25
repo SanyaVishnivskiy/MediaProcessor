@@ -38,7 +38,7 @@ const get = async (uri: string) => {
 }
 
 const getDownloadLink = (uri: string): string => {
-    return baseUri + uri;
+    return baseUri + uri + "?token=" + auth.getToken()?.token;
 }
 
 const post = async (uri: string, body: any) => {

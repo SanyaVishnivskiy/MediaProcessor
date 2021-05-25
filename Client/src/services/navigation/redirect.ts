@@ -12,4 +12,8 @@ export class Redirect {
     static toUsers() {
         this.to('/users');
     }
+
+    static toUser(id: string) {
+        this.to('/users/' + id);
+    }
 }

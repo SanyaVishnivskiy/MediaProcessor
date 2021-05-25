@@ -1,4 +1,6 @@
-import { LoginResult, Role, User } from "../../entities/auth/models";
+import { LoginResult, Role, RoleName, User } from "../../entities/auth/models";
+import jwt_decode from "jwt-decode";
+import { AuthToken } from "./auth-token";
 
 export class Auth {
     tokenKey = "token";
@@ -44,5 +46,18 @@ export class Auth {
             return null;
         
         return JSON.parse(value) as Role[];
+    }
+
+    getParsedToken() : AuthToken | null {
+        const token = this.getToken();
+        if (!token)
+            return null;
+
+        return new AuthToken(jwt_decode(token?.token));
+    }
+
+    isAdmin(): boolean {
+        const roles = this.getParsedToken()?.getRoles();
+        return roles?.some(x => x === RoleName.admin) ?? false;
     }
 }

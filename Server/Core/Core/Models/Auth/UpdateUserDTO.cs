@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Auth
 {
@@ -21,5 +22,7 @@ namespace Core.Models.Auth
         [Compare("Password", ErrorMessage = "Passwords are different")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; } = "";
+
+        public List<string> Roles { get; set; } = new List<string>();
     }
 }

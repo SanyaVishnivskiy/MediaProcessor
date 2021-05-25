@@ -37,7 +37,7 @@ ReactDOM.render(
         <Route path="/records/:id/actions" exact component={ActionsPage} />
         <Route path="/login" exact component={LoginPage} />
         <Route path="/users" exact component={UsersPage} />
-        <Route path="/users/new" exact component={UserCreatePage} />
+        <Route path="/new/users" exact component={UserCreatePage} />
         <Route path="/users/:id" exact component={UserEditPage} />
        </div>
     </Router>
