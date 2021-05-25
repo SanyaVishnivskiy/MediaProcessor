@@ -1,6 +1,6 @@
 import React from "react";
 import { IAction, ResizeAction } from "../../../../../entities/actions/models";
-import { ActionInputElement } from "./action-input-element";
+import { InputElement } from "../../../../common/inputs/input-element";
 
 interface ResizeActionInputProps {
     action: ResizeAction,
@@ -44,7 +44,7 @@ export const ResizeActionInput = (props: ResizeActionInputProps) => {
 
     return (
         <div>
-            <ActionInputElement 
+            <InputElement 
                 id={"height"}
                 inputType={"number"}
                 label={"Height:"}
@@ -52,7 +52,7 @@ export const ResizeActionInput = (props: ResizeActionInputProps) => {
                 onChange={onHeightChange}
                 />
 
-            <ActionInputElement 
+            <InputElement 
                 id={"width"}
                 inputType={"number"}
                 label={"Width:"}
@@ -60,7 +60,7 @@ export const ResizeActionInput = (props: ResizeActionInputProps) => {
                 onChange={onWidthChange}
                 />
 
-            <ActionInputElement 
+            <InputElement 
                 id={"output"}
                 inputType={"text"}
                 label={"Output file name:"}

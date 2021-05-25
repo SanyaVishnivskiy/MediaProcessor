@@ -1,4 +1,5 @@
-﻿using Core.Business.Files.Component;
+﻿using Core.Business.Auth.Component;
+using Core.Business.Files.Component;
 using Core.Business.Files.Component.Models;
 using Core.Business.Records.Configuration;
 using Core.DataAccess.Composition;
@@ -14,6 +15,14 @@ namespace Core.Business.Configuration
 
             RegisterRecords(services);
             RegisterFiles(services);
+            RegisterAuth(services);
+        }
+
+        private void RegisterAuth(IServiceCollection services)
+        {
+            services.AddTransient<IAuthComponent, AuthComponent>();
+            services.AddTransient<IUserComponent, UserComponent>();
+            services.AddTransient<UserManager>();
         }
 
         private void RegisterDataAccess(IServiceCollection services)

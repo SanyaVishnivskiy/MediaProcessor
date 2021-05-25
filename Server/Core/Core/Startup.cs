@@ -13,6 +13,14 @@ using Microsoft.Extensions.FileProviders;
 using Core.Common.Models.Configurations;
 using Core.Middleware;
 using System.Text.Json.Serialization;
+using Core.DataAccess.Auth;
+using Core.DataAccess.Auth.Roles;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System;
+using Core.Common.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Core
 {
@@ -38,6 +46,13 @@ namespace Core
 
             services.AddDbContext<AppDbContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, Role>(opt => {
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Lockout.MaxFailedAccessAttempts = 50;
+                opt.User.RequireUniqueEmail = false;
+            })
+                .AddEntityFrameworkStores<AppDbContext>();
 
             services.AddAutoMapper(
                 typeof(FilesController).Assembly,
@@ -51,9 +66,39 @@ namespace Core
                     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
+            ComposeAuth(services);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Core", Version = "v1" });
+            });
+        }
+
+        private void ComposeAuth(IServiceCollection services)
+        {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = AuthOptions.Audience;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey()
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser()
+                    .Build();
             });
         }
 
@@ -82,6 +127,7 @@ namespace Core
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

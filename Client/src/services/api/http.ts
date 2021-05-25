@@ -1,15 +1,40 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
+import { Auth } from "../auth/auth";
+import { Redirect } from "../navigation/redirect";
 
 const baseUri: string = "https://localhost:9300/";
 
+const auth = new Auth();
+
+const getAuthHeaderValue = (): string => {
+    const loginResult = auth.getToken();
+    return `Bearer ${loginResult?.token}`;
+}
+
+axios.interceptors.request.use(function (config) {
+    config.headers = {
+        ...config.headers,
+        Authorization: getAuthHeaderValue()
+    };
+    return config;
+});
+
+axios.interceptors.response.use(
+    (value) => {
+        return value;
+    },
+    (error) => {
+        console.log("in interceptors", JSON.stringify(error, null, 2));
+        if ((error?.response?.status ?? 0) === 401) {
+            new Auth().deleteToken();
+            Redirect.toLogin();
+        }
+        return Promise.reject(error.response);
+    })
+
 const get = async (uri: string) => {
-    try {
-        const res = await axios.get(baseUri + uri);
-        return res;
-    } catch (e) {
-        console.log(e);
-        throw new Error(e);
-    }
+    const res = await axios.get(baseUri + uri);
+    return res;
 }
 
 const getDownloadLink = (uri: string): string => {
@@ -17,33 +42,18 @@ const getDownloadLink = (uri: string): string => {
 }
 
 const post = async (uri: string, body: any) => {
-    try {
-        const res = await axios.post(baseUri + uri, body);
-        return res;
-    } catch (e) {
-        console.log(e);
-        throw new Error(e);
-    }
+    const res = await axios.post(baseUri + uri, body);
+    return res;
 } 
 
 const put = async(uri: string, body: any) => {
-    try {
-        const res = await axios.put(baseUri + uri, body);
-        return res;
-    } catch (e) {
-        console.log(e);
-        throw new Error(e);
-    }
+    const res = await axios.put(baseUri + uri, body);
+    return res;
 }
 
 const httpDelete = async(uri: string) => {
-    try {
-        const res = await axios.delete(baseUri + uri);
-        return res;
-    } catch (e) {
-        console.log(e);
-        throw new Error(e);
-    }
+    const res = await axios.delete(baseUri + uri);
+    return res;
 }
 
 export {

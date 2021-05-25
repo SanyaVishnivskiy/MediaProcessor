@@ -1,6 +1,6 @@
 import React from "react";
 import { GeneratePreviewAction, IAction, ResizeAction } from "../../../../../entities/actions/models";
-import { ActionInputElement } from "./action-input-element";
+import { InputElement } from "../../../../common/inputs/input-element";
 
 interface PreviewActionInputProps {
     action: GeneratePreviewAction,
@@ -32,7 +32,7 @@ export const PreviewActionInput = (props: PreviewActionInputProps) => {
 
     return (
         <div>
-            <ActionInputElement 
+            <InputElement 
                 id={"timeOfSnapshot"}
                 inputType={"text"}
                 label={"Time of snapshot:"}
