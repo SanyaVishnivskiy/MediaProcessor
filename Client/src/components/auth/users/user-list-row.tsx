@@ -12,8 +12,8 @@ export const UserListRow = ({user}: UserListRowProps) => {
     
     return(
         <tr onClick={(() => redirect())}>
-            <td>{user.id}</td>
             <td>{user.employeeId}</td>
+            <td>{`${user.firstName} ${user.lastName}`}</td>
             <td>{user.email}</td>
         </tr>
     );

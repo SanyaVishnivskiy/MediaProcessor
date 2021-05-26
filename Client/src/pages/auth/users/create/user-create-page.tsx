@@ -13,6 +13,8 @@ const emptyUser : CreateUserModel = {
     employeeId: "",
     email: "",
     phoneNumber: "",
+    firstName: "",
+    lastName: "",
     password: "",
     confirmPassword: "",
     roles: [ RoleName.employee ]

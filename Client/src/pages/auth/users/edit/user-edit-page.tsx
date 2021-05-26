@@ -94,6 +94,8 @@ export const UserEditPage = (props: UserEditPageProps) => {
             employeeId: user?.employeeId ?? "",
             phoneNumber: user?.phoneNumber ?? "",
             email: user?.email ?? "",
+            firstName: user?.firstName ?? "",
+            lastName: user?.lastName ?? "",
             password: user?.password ?? "",
             confirmPassword: user?.confirmPassword ?? "",
             roles: user?.roles ?? auth.getParsedToken()?.getRoles() ?? []

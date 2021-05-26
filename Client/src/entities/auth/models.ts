@@ -13,6 +13,8 @@ export interface CreateUserModel {
     employeeId: string;
     phoneNumber: string;
     email: string;
+    firstName: string;
+    lastName: string;
     password: string;
     confirmPassword: string;
     roles: string[];
@@ -22,6 +24,8 @@ export interface User {
     id: string;
     employeeId: string;
     phoneNumber: string;
+    firstName: string;
+    lastName: string;
     email: string;
 }
 

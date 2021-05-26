@@ -20,8 +20,8 @@ export const UserList = ({users}: UserListProps) => {
             <table className="user-list">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Employee Id</th>
+                        <th>Name</th>
                         <th>Email</th>
                     </tr>
                 </thead>

@@ -41,6 +41,14 @@ export const UserEditForm = (props: UserEditFromProps) => {
         props.onChange({...props.user, phoneNumber: value })
     }
 
+    const onFirstNameChange = (value: string) => {
+        props.onChange({...props.user, firstName: value })
+    }
+
+    const onLastNameChange = (value: string) => {
+        props.onChange({...props.user, lastName: value })
+    }
+
     const onPasswordChange = (value: string) => {
         props.onChange({...props.user, password: value })
     }
@@ -63,6 +71,8 @@ export const UserEditForm = (props: UserEditFromProps) => {
             <InputElement id={"employeeId"} inputType={"text"} label={"Employee Id:"} value={props.user.employeeId} onChange={onEmployeeIdChange} disabled={props.readonly} />
             <InputElement id={"email"} inputType={"email"} label={"Email:"} value={props.user.email} onChange={onEmailChange} disabled={props.readonly}/>
             <InputElement id={"phoneNumber"} inputType={"text"} label={"Phone Number:"} value={props.user.phoneNumber} onChange={onPhoneNumberChange} disabled={props.readonly}/>
+            <InputElement id={"firstName"} inputType={"text"} label={"First name:"} value={props.user.firstName} onChange={onFirstNameChange} disabled={props.readonly}/>
+            <InputElement id={"lastName"} inputType={"text"} label={"Last name:"} value={props.user.lastName} onChange={onLastNameChange} disabled={props.readonly}/>
             <InputElement id={"pasword"} inputType={"password"} label={"Password:"} value={props.user.password} onChange={onPasswordChange} disabled={props.readonly}/>
             <InputElement id={"confirmPasword"} inputType={"password"} label={"Confirm Password:"} value={props.user.confirmPassword} onChange={onConfirmPasswordChange} disabled={props.readonly}/>
             <div>
