@@ -4,6 +4,10 @@ export interface IRecord {
     description: string;
     file: IRecordFile;
     preview: IRecordFile;
+    createdOn: string;
+    createdBy: string;
+    modifiedOn: string;
+    modifiedBy: string;
 }
 
 export interface IRecordFile {

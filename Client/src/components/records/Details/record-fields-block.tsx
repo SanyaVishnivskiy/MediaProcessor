@@ -20,11 +20,22 @@ export const RecordFieldsBlock = ({record, onChange}: RecordFieldsBlockProps) =>
         onChange(newRecord);
     }
 
+    const appendUTCifNotNull = (value: string | null): string | null => {
+        if (!value)
+            return null;
+
+        return value + " UTC";
+    }
+
     return (
         <Form>
             <InputElement id={"recordId"} inputType="text" value={record.id} label={"Id:"} disabled onChange={() => {}}/>
             <InputElement id={"recordName"} inputType="text" value={record.fileName ?? ""} label={"Filename:"} onChange={onNameChanged}/>
             <InputElement id={"recordDescription"} inputType="text" as="textarea" textAreaRows={3} value={record.description ?? ""} label={"Description:"} onChange={onDescriptionChanged}/>
+            <InputElement id={"createdOn"} inputType="text" value={appendUTCifNotNull(record.createdOn) ?? ""} label={"Created on:"} onChange={() => {}} disabled/>
+            <InputElement id={"createdBy"} inputType="text" value={record.createdBy ?? ""} label={"Created by:"} onChange={() => {}} disabled/>
+            <InputElement id={"modifiedOn"} inputType="text" value={appendUTCifNotNull(record.modifiedOn) ?? ""} label={"Modified on:"} onChange={() => {}} disabled/>
+            <InputElement id={"modifiedBy"} inputType="text" value={record.modifiedBy ?? ""} label={"Modified by:"} onChange={() => {}} disabled/>
         </Form>
     );
 }

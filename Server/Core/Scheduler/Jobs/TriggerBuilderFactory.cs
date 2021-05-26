@@ -20,16 +20,17 @@ namespace Scheduler.Jobs
             return TriggerBuilder.Create()
                 .WithIdentity(data.Id, groupKey)
                 .ForJob(new JobKey(jobKey, groupKey))
-                .UsingJobData(CreateData(data.Data))
+                .UsingJobData(CreateData(data))
                 .StartNow()
                 .Build();
         }
 
-        private JobDataMap CreateData(JObject data)
+        private JobDataMap CreateData(JobData data)
         {
             var map = new Dictionary<string, object>
             {
-                { "Data", data.ToString() }
+                { "Data", data.Data.ToString() },
+                { "CreatedBy", data.CreatedBy }
             };
 
             return new JobDataMap((IDictionary<string, object>)map);

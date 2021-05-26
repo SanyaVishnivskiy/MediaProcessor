@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Business.Auth;
 using Core.Business.Records.Models;
 using Core.Common.Models;
 using Core.Common.Models.Search;
@@ -13,13 +14,16 @@ namespace Core.Business.Records.Component
     public class RecordsComponent : IRecordsComponent
     {
         private readonly IUnitOfWork _context;
+        private readonly ICurrentUser _user;
         private readonly IMapper _mapper;
 
         public RecordsComponent(
             IUnitOfWork context,
+            ICurrentUser user,
             IMapper mapper)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _user = user ?? throw new ArgumentNullException(nameof(user));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
@@ -39,6 +43,13 @@ namespace Core.Business.Records.Component
         private void FillDefaultFields(RecordModel model)
         {
             SetIdIfNull(model);
+
+            var utcNow = DateTime.UtcNow;
+            model.CreatedOn = utcNow;
+            model.ModifiedOn = utcNow;
+
+            model.CreatedBy = _user.EmployeeId;
+            model.ModifiedBy = _user.EmployeeId;
         }
 
         private void SetIdIfNull(RecordModel model)
@@ -87,6 +98,9 @@ namespace Core.Business.Records.Component
                 {
                     await _context.Records.DeletePreview(record.Id);
                 }
+
+                model.ModifiedBy = _user.EmployeeId;
+                model.ModifiedOn = DateTime.UtcNow;
 
                 var newRecord = _mapper.Map<RecordModel, Record>(model, record);
                 await _context.Records.Update(newRecord);
