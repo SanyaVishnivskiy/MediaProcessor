@@ -17,19 +17,25 @@ export const PaginationComponent = (props: PaginationComponentProps) => {
     };
 
     const onPageChanged = (selected: number) => {
+        if (!selected)
+            return;
+
+        if (selected == props.pagination.page)
+            return;
+
         const newPagination = formNewPagination(selected);
         props.onPageChanged(newPagination);
     }
 
     const totalPages = (): number => {
-        return Math.round(props.totalItems / props.pagination.size);
+        return Math.ceil(props.totalItems / props.pagination.size);
     }
 
     const pages = (): any[] => {
         let pages: any[] = [];
         for (let i = 1; i <= totalPages(); i++) {
             pages.push(
-              <Pagination.Item key={i} active={i === props.pagination.page}>
+              <Pagination.Item key={i} active={i === +props.pagination.page}>
                 {i}
               </Pagination.Item>);
         }

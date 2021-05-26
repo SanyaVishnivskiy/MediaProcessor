@@ -1,5 +1,6 @@
 import userEvent from "@testing-library/user-event";
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { RouteComponentProps } from "react-router-dom";
 import { UserEditForm } from "../../../../components/auth/users/user-edit-form";
 import { CreateUserModel, UserInput } from "../../../../entities/auth/models";
@@ -76,7 +77,7 @@ export const UserEditPage = (props: UserEditPageProps) => {
 
     useEffect(() => {
         fetchUser();
-    },[])
+    },[id])
 
     if (!user && !fetchError)
         return (
@@ -107,13 +108,27 @@ export const UserEditPage = (props: UserEditPageProps) => {
         );
     }
 
+    const containerStyles: CSSProperties = {
+        width: '70%',
+        margin: '20px auto'
+    }
+
     return (
-        <div>
+        <div style={containerStyles}>
+            <h1 className="d-flex justify-content-center">User</h1>
             <UserEditForm isNew={false} user={getUserState() as UserInput} onChange={onUserChange}/>
-            <button onClick={() => save()}>Save</button>
-            <button onClick={() => deleteUser()}>Delete</button>
-            <div style={{color: 'red'}}>{error}</div>
-            <div style={{color: 'green'}}>{saveResponse}</div>
+            <h5 style={{color: 'red', marginTop:'5px'}}>{error}</h5>
+            <h5 style={{color: 'green', marginTop:'5px'}}>{saveResponse}</h5>
+            <Container style={{marginTop: '20px', width: '60%'}}>
+                <Row>
+                    <Col>
+                        <Button size="lg" variant="danger" onClick={() => deleteUser()}>Delete</Button>
+                    </Col>
+                    <Col>
+                        <Button size="lg" className="float-right" variant="success" onClick={() => save()}>Save</Button>
+                    </Col>
+                </Row>
+            </Container>
         </div>
     );
 }

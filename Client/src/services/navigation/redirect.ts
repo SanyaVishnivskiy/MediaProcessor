@@ -17,6 +17,10 @@ export class Redirect {
         this.to('/users/' + id);
     }
 
+    static toUserCreation() {
+        this.to('/new/users')
+    }
+
     static toRecord(id: string) {
         this.to('/records/' + id);
     }

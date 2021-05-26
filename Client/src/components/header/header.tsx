@@ -42,8 +42,8 @@ export const Header = (props: HeaderProps) => {
                     <MenuItem name="Users" path="/users" hidden={!auth.isAdmin()}/>
                 </Nav>
                 <Form inline>
-                    <Button className="mr-2" onClick={openProfile} variant="outline-secondary" >Profile</Button>
-                    <Button onClick={logOut} variant="outline-info" >Logout</Button>
+                    <Button className="mr-2" onClick={openProfile} variant="outline-primary" >Profile</Button>
+                    <Button onClick={logOut} variant="outline-danger" >Logout</Button>
                 </Form>
             </Navbar.Collapse>
         </Navbar>

@@ -44,15 +44,18 @@ export const RecordBlock = ({record}: RecordBlockProps) => {
     }
 
     const cardStyles : CSSProperties = {
-        //width: '30%',
         minWidth: '300px',
-        marginBottom: '10px'
+        marginBottom: '30px'
+    }
+
+    const cardBodyStyles: CSSProperties = {
+        height: '100px'
     }
 
     return (
         <Card onClick={redirect} style={cardStyles}>
             <Card.Img variant="top" src={getFilePath()} style={imageStyles}/>
-            <Card.Body>
+            <Card.Body style={cardBodyStyles}>
                 <Card.Title>{record.fileName}</Card.Title>
                 <Card.Text>{shortDescription()}</Card.Text>
             </Card.Body>

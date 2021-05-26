@@ -24,7 +24,7 @@ export const RecordFieldsBlock = ({record, onChange}: RecordFieldsBlockProps) =>
         <Form>
             <InputElement id={"recordId"} inputType="text" value={record.id} label={"Id:"} disabled onChange={() => {}}/>
             <InputElement id={"recordName"} inputType="text" value={record.fileName ?? ""} label={"Filename:"} onChange={onNameChanged}/>
-            <InputElement id={"recordDescription"} inputType="text" value={record.description ?? ""} label={"Description:"} onChange={onDescriptionChanged}/>
+            <InputElement id={"recordDescription"} inputType="text" as="textarea" textAreaRows={3} value={record.description ?? ""} label={"Description:"} onChange={onDescriptionChanged}/>
         </Form>
     );
 }

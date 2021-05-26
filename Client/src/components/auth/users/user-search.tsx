@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { User, UserInput } from "../../../entities/auth/models";
 import { UsersService } from "../../../services/auth/users-service";
-import { InputElement } from "../../common/inputs/input-element"
+import { Redirect } from "../../../services/navigation/redirect";
 import { UserList } from "./user-list";
 
 export const UserSearch = () => {
@@ -24,14 +25,40 @@ export const UserSearch = () => {
         setSearch(value);
     }
 
+    const redirectToCreate = () => {
+        Redirect.toUserCreation();
+    }
+
     useEffect(() => {
         searchUsers();
     }, [])
 
+    const searchStyle: CSSProperties = {
+        width: '90%',
+        margin: '0 auto'
+    }
+
     return (
-        <div>
-            <InputElement id="search" label={"Search:"} value={search} inputType={"text"} onChange={onChange}/>
-            <button onClick={() => searchUsers()}>Search</button>
+        <div  style={searchStyle}>
+            <Container>
+                <Row>
+                    <Col sm="8">
+                        <Form.Group controlId={"search"} as={Row}>
+                            <Form.Control
+                                type={"text"}
+                                name={"search"} 
+                                onChange={e => onChange(e.target.value)}
+                                value={search} />
+                        </Form.Group>
+                    </Col>
+                    <Col sm="2">
+                        <Button variant="primary" block onClick={() => searchUsers()}>Search</Button>
+                    </Col>
+                    <Col sm="2">
+                        <Button variant="success" block onClick={() => redirectToCreate()}>Create</Button>
+                    </Col>
+                </Row>
+            </Container>
             <UserList users={users}/>
         </div>
     )

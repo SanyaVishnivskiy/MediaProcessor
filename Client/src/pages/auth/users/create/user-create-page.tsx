@@ -1,5 +1,6 @@
 import { create } from "node:domain";
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
+import { Button } from "react-bootstrap";
 import { UserEditForm } from "../../../../components/auth/users/user-edit-form";
 import { CreateUserModel, RoleName, UserInput } from "../../../../entities/auth/models";
 import { Auth } from "../../../../services/auth/auth";
@@ -42,10 +43,18 @@ export const UserCreatePage = () => {
         Redirect.to("/");
     }
 
+    const containerStyles: CSSProperties = {
+        width: '70%',
+        margin: '20px auto'
+    }
+
     return (
-        <div>
+        <div style={containerStyles}>
+            <h1 className="d-flex justify-content-center">Create User</h1>
             <UserEditForm isNew={true} user={user} onChange={onUserChange}/>
-            <button onClick={() => create()}>Create</button>
+            <div className="d-flex justify-content-center" style={{marginTop: '10px'}}>
+                <Button onClick={() => create()}>Create</Button>
+            </div>
             <div style={{color: 'red'}}>{error}</div>
         </div>
     );

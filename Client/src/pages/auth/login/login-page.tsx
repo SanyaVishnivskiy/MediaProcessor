@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { CSSProperties, useState } from "react"
+import { Button } from "react-bootstrap";
 import { InputElement } from "../../../components/common/inputs/input-element";
 import { LoginModel, LoginResult } from "../../../entities/auth/models";
 import { Auth } from "../../../services/auth/auth";
@@ -34,9 +35,14 @@ export const LoginPage = () => {
         }
     }
 
+    const containerStyles: CSSProperties = {
+        width: '50%',
+        margin: '30px auto'
+    }
+
     return (
-        <div>
-            <h3>Login:</h3>
+        <div style={containerStyles}>
+            <h3 className="d-flex justify-content-center">Login</h3>
             <InputElement 
                 id={"employeeId"}
                 inputType={"text"}
@@ -49,7 +55,9 @@ export const LoginPage = () => {
                 label={"Password:"}
                 value={loginModel.password}
                 onChange={onPasswordChange} />
-            <button onClick={() => login()}>Login</button>
+            <div className="d-flex justify-content-center">
+                <Button variant="primary" onClick={() => login()}>Login</Button>
+            </div>
             { error 
                 ? (<div style={{color: 'red'}}>{error}</div>)    
                 : (<></>)
