@@ -1,6 +1,7 @@
 export interface IRecord {
     id: string;
     fileName: string;
+    description: string;
     file: IRecordFile;
     preview: IRecordFile;
 }

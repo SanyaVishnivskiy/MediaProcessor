@@ -6,6 +6,7 @@ namespace Core.Models
     {
         public string Id { get; set; }
         public string FileName { get; set; }
+        public string Description { get; set; }
         public RecordFileDTO File { get; set; }
         public RecordFileDTO Preview { get; set; }
     }

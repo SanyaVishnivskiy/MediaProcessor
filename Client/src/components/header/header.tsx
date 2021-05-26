@@ -32,17 +32,20 @@ export const Header = (props: HeaderProps) => {
     if (window.location.pathname === '/login') return(<></>);
 
     return (
-        <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar style={{margin:'0 0 10px 0'}} bg="dark" variant="dark" expand="sm">
             <Navbar.Brand href="/">Media Processor</Navbar.Brand>
-            <Nav className="mr-auto">
-                <MenuItem name="Records" path="/"/>
-                <MenuItem name="Uploads" path="/upload"/>
-                <MenuItem name="Users" path="/users" hidden={!auth.isAdmin()}/>
-            </Nav>
-            <Form inline>
-                <Button className="mr-2" onClick={openProfile} variant="outline-secondary" >Profile</Button>
-                <Button onClick={logOut} variant="outline-info" >Logout</Button>
-            </Form>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="mr-auto">
+                    <MenuItem name="Records" path="/"/>
+                    <MenuItem name="Upload" path="/upload"/>
+                    <MenuItem name="Users" path="/users" hidden={!auth.isAdmin()}/>
+                </Nav>
+                <Form inline>
+                    <Button className="mr-2" onClick={openProfile} variant="outline-secondary" >Profile</Button>
+                    <Button onClick={logOut} variant="outline-info" >Logout</Button>
+                </Form>
+            </Navbar.Collapse>
         </Navbar>
     );
 }

@@ -22,6 +22,8 @@ export const RecordFieldsBlock = ({record, onChange}: RecordFieldsBlockProps) =>
                 <br/>
                 <label htmlFor="recordName">Filename:</label>
                 <input id="recordName" value={record.fileName} onChange={onNameChanged}/>
+                <label htmlFor="recordDescription">Description:</label>
+                <input id="recordDescription" value={record.description} onChange={onNameChanged}/>
             </form>
         </div>
     );

@@ -14,7 +14,7 @@ namespace FileProcessor.Files
     public interface ILocalRecordsComponent
     {
         Task<DownloadingResult> DownloadLocally(string recordId);
-        Task AddRecord(string fileName, string localFilePath);
+        Task AddRecord(ActionRecord record);
         Task DeleteLocally(string path);
     }
 
@@ -60,11 +60,11 @@ namespace FileProcessor.Files
             return Guid.NewGuid().ToString() + Path.GetExtension(record.File.RelativePath);
         }
 
-        public async Task AddRecord(string fileName, string localFilePath)
+        public async Task AddRecord(ActionRecord record)
         {
-            using (var stream = File.OpenRead(localFilePath))
+            using (var stream = File.OpenRead(record.LocalFilePath))
             {
-                await _facade.Create(BuildFileModel(stream, fileName));
+                await _facade.Create(BuildFileModel(stream, record.FileName));
             }
         }
 
