@@ -103,9 +103,11 @@ namespace FileProcessor.Actions
 
         private Task AddRecord(IAction action, ActionHandlerResult result)
         {
-            return _filesComponent.AddRecord(
-                Path.GetFileName(action.OutputPath),
-                result.ResultFilePath);
+            return _filesComponent.AddRecord(new ActionRecord
+            {
+                FileName = Path.GetFileName(action.OutputPath),
+                LocalFilePath = result.ResultFilePath
+            });
         }
 
         private Task DeleteLocalFile(string localPath)

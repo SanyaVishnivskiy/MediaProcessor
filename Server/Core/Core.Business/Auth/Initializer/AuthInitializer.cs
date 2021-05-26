@@ -32,13 +32,19 @@ namespace Core.Business.Auth.Initializer
                 await _roleManager.CreateAsync(new Role("employee"));
             }
 
-            if (await _userManager.FindByNameAsync(AdminEmployeeId) == null)
+            await CreateUserIfNotExists(AdminEmployeeId, AdminEmail, AdminPassword, new[] { "admin", "employee" });
+            await CreateUserIfNotExists("employee", "employee@gmail.com", AdminPassword, new[] { "employee"});
+        }
+
+        private async Task CreateUserIfNotExists(string employeeId, string email, string password, string[] roles)
+        {
+            if (await _userManager.FindByNameAsync(employeeId) == null)
             {
-                var admin = new User { Email = AdminEmail, UserName = AdminEmployeeId };
-                var result = await _userManager.CreateAsync(admin, AdminPassword);
+                var admin = new User { Email = email, UserName = employeeId };
+                var result = await _userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRolesAsync(admin, new[] { "admin", "employee" });
+                    await _userManager.AddToRolesAsync(admin, roles);
                 }
             }
         }
