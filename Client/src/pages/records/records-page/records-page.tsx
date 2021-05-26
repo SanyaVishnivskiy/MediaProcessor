@@ -10,7 +10,7 @@ import history from "../../../entities/search/history";
 
 const getInitialPagination = (): IPagination => {
     return {
-        size: 2,
+        size: 6,
         page: 1,
         sortBy: 'id',
         sortOrder: 'desc'
@@ -48,7 +48,7 @@ export const RecordsPage = (props: IRecordPageProps) => {
 
     return (
         <div>
-            <h1>Records:</h1>
+            <h1 className="d-flex justify-content-center">Records</h1>
             <RecordsGrid records={records.items}/>
             <PaginationComponent 
                 totalItems={records.totalItems}

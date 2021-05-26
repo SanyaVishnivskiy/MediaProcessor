@@ -1,5 +1,7 @@
-import { ChangeEvent, ChangeEventHandler } from "react";
+import React, { ChangeEvent, ChangeEventHandler } from "react";
+import { Form } from "react-bootstrap";
 import { IRecord } from "../../../entities/records/models";
+import { InputElement } from "../../common/inputs/input-element";
 
 interface RecordFieldsBlockProps {
     record: IRecord;
@@ -8,23 +10,21 @@ interface RecordFieldsBlockProps {
 
 export const RecordFieldsBlock = ({record, onChange}: RecordFieldsBlockProps) => {
 
-    const onNameChanged = (e: ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
+    const onNameChanged = (value: string) => {
         const newRecord = { ...record, fileName: value };
+        onChange(newRecord);
+    }
+    
+    const onDescriptionChanged = (value: string) => {
+        const newRecord = { ...record, description: value };
         onChange(newRecord);
     }
 
     return (
-        <div>
-            <form>
-                <label htmlFor="recordId">Id:</label>
-                <input id="recordId" value={record.id} disabled/>
-                <br/>
-                <label htmlFor="recordName">Filename:</label>
-                <input id="recordName" value={record.fileName} onChange={onNameChanged}/>
-                <label htmlFor="recordDescription">Description:</label>
-                <input id="recordDescription" value={record.description} onChange={onNameChanged}/>
-            </form>
-        </div>
+        <Form>
+            <InputElement id={"recordId"} inputType="text" value={record.id} label={"Id:"} disabled onChange={() => {}}/>
+            <InputElement id={"recordName"} inputType="text" value={record.fileName ?? ""} label={"Filename:"} onChange={onNameChanged}/>
+            <InputElement id={"recordDescription"} inputType="text" value={record.description ?? ""} label={"Description:"} onChange={onDescriptionChanged}/>
+        </Form>
     );
 }

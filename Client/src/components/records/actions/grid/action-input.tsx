@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { ActionType, GeneratePreviewAction, IAction, ResizeAction } from "../../../../entities/actions/models";
 import { IRecord } from "../../../../entities/records/models";
 import { ActionInputDropdown } from "./action-input-dropdown";
@@ -62,8 +62,13 @@ export const ActionInput = (props: ActionInputProps) => {
         };
     }
 
+    const containerStyles: CSSProperties = {
+        padding: '10px',
+        marginBottom: '10px'
+    }
+
     return (
-        <div>
+        <div className="rounded border border-secondary" style={containerStyles}>
             <ActionInputDropdown
                 actions={props.possibleAction}
                 onChange={onChange}

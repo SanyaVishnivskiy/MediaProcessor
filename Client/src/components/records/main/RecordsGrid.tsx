@@ -1,4 +1,5 @@
 import React from "react";
+import { CardDeck } from "react-bootstrap";
 import { IRecord } from "../../../entities/records/models"
 import { RecordBlock } from "./RecordBlock";
 import "./records.css"
@@ -9,18 +10,13 @@ interface RecordsGridProps {
 
 export const RecordsGrid = ({records}: RecordsGridProps) => {
     return (
-        <div>
+        <CardDeck>
             {!records || records.length === 0
-                ? (<h3>No records found</h3>)
-                : (
-                <div>
-                    <div className="records-container">
-                        {records.map((x, i) => 
-                            <RecordBlock record={x} key={i}/>
-                        )}
-                    </div>          
-                </div>)
+                ? (<h3 className="d-flex justify-content-center">No records found</h3>)
+                : records.map((x, i) => 
+                        <RecordBlock record={x} key={i}/>
+                    )
             }
-        </div>
+        </CardDeck>
     );
 }

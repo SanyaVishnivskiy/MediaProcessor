@@ -1,8 +1,13 @@
+import React from "react";
+import { Button } from "react-bootstrap";
 import { IRecord } from "../../../entities/records/models";
 import { RecordsService } from "../../../services/records/records-service";
 
 interface RecordDownloadButtonProps {
-    record: IRecord
+    record: IRecord,
+    className?: string,
+    variant?: string,
+    size?: "sm" | "lg"
 }
 
 export const RecordDownloadButton = (props: RecordDownloadButtonProps) => {
@@ -15,7 +20,7 @@ export const RecordDownloadButton = (props: RecordDownloadButtonProps) => {
     
     return (
         <div>
-            <button onClick={download}>Download</button>
+            <Button size={props.size} className={props.className} variant={props.variant} onClick={download} block>Download</Button>
         </div>
     )
 }

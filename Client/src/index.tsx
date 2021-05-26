@@ -4,7 +4,7 @@ import './index.css';
 import { Router, Route, Link } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import { Header } from './components/header/header';
-import { FileUpload } from './pages/uploads/uploads-page';
+import { FileUpload } from './pages/uploads-page/uploads-page';
 import { RecordsPage } from './pages/records/records-page/records-page';
 import { RecordEditPage } from './pages/records/record-edit-page/record-edit-page';
 import history from './entities/search/history';

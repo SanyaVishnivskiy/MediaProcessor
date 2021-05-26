@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
+import React, { CSSProperties } from "react";
+import Card from "react-bootstrap/Card";
 import { IRecord } from "../../../entities/records/models"
-import { RecordImageBlock } from "./record-image-block"
 import "./records.css"
+import * as http from "../../../services/api/http"
+import * as filesApi from "../../../services/api/files-urls"
+import { Redirect } from "../../../services/navigation/redirect";
 
 
 interface RecordBlockProps {
@@ -9,15 +12,50 @@ interface RecordBlockProps {
 }
 
 export const RecordBlock = ({record}: RecordBlockProps) => {
+    const descriptionMaxLength = 50;
+    
+    const getFilePath = () => {
+        const fileStorePrefix = filesApi.getfileStorePrefix(record.preview?.fileStoreSchema);
+        return http.baseUri + fileStorePrefix + record.preview?.relativePath;
+    }
+
+    const shortDescription = () => {
+        if (!record.description) {
+            return "";
+        }
+
+        if (record.description.length <= descriptionMaxLength) {
+            return record.description;
+        }
+
+        return record.description
+            .substring(0, descriptionMaxLength - 3)
+            + "...";
+    }
+
+    const redirect = () => {
+        Redirect.toRecord(record.id);
+    }
+
+    const imageStyles : CSSProperties = {
+        width: '100%',
+        height: '15vw',
+        objectFit: 'cover'
+    }
+
+    const cardStyles : CSSProperties = {
+        //width: '30%',
+        minWidth: '300px',
+        marginBottom: '10px'
+    }
+
     return (
-        <Link className="record-block" to={"/records/" + record.id}>
-            <div>
-                <h5>Name: {record.fileName}</h5>
-                <h5>Id: {record.id}</h5>
-                <hr/>
-                <h6>Preview:</h6>
-                <RecordImageBlock record={record}/>
-            </div>
-        </Link>
+        <Card onClick={redirect} style={cardStyles}>
+            <Card.Img variant="top" src={getFilePath()} style={imageStyles}/>
+            <Card.Body>
+                <Card.Title>{record.fileName}</Card.Title>
+                <Card.Text>{shortDescription()}</Card.Text>
+            </Card.Body>
+        </Card>
     );
 }

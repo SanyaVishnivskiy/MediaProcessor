@@ -1,7 +1,6 @@
 import { IPagination } from "../../../entities/search/models"
-import React from "react"
-import "./pagination.css"
-import ReactPaginate from "react-paginate";
+import React, { CSSProperties } from "react"
+import { Pagination } from "react-bootstrap";
 
 interface PaginationComponentProps {
     pagination: IPagination;
@@ -26,26 +25,29 @@ export const PaginationComponent = (props: PaginationComponentProps) => {
         return Math.round(props.totalItems / props.pagination.size);
     }
 
-    const pages = (): number[] => {
-        let pages: number[] = [];
+    const pages = (): any[] => {
+        let pages: any[] = [];
         for (let i = 1; i <= totalPages(); i++) {
-            pages.push(i);
+            pages.push(
+              <Pagination.Item key={i} active={i === props.pagination.page}>
+                {i}
+              </Pagination.Item>);
         }
 
         return pages;
     }
+
+    const paginationContainerStyles: CSSProperties = {
+        width: '100%'
+    };
     
     return (
-        <div>
-            <ul className="pagination">
-                {pages().map(page => {
-                    return (
-                    <li key={page} onClick={() => onPageChanged(page)}>
-                        {page}
-                    </li>
-                    );
-                })}
-            </ul>
+        <div style={paginationContainerStyles}>
+            <Pagination
+                className="justify-content-center"
+                onClick={(e: any) => onPageChanged(e.target.text)}>
+                    {pages()}
+            </Pagination>
         </div>
     );
 }

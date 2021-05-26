@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { CSSProperties, useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { ActionsGrid } from "../../components/records/actions/grid/actions-grid";
 import { IAction, IRunActionsRequest } from "../../entities/actions/models";
@@ -6,6 +6,7 @@ import { IRecord } from "../../entities/records/models";
 import { JobsService } from "../../services/actions/jobs-service";
 import { RecordsService } from "../../services/records/records-service";
 import history from "../../entities/search/history";
+import { Button } from "react-bootstrap";
 
 interface ActionsPageParams {
     id: string; 
@@ -39,6 +40,10 @@ export const ActionsPage = (props: ActionsPageProps) => {
             recordId: recordId
         };
         await jobsService.run(request);
+
+        setSelectedActions(new Array<IAction>());
+        setRecord(null);
+
         history.push(`/records/${recordId}`)
     }
 
@@ -59,19 +64,25 @@ export const ActionsPage = (props: ActionsPageProps) => {
         fetchActions();
     }, [])
 
+    const containerStyles: CSSProperties = {
+        width: '70%',
+        margin: '0 auto'
+    }
+
     return (
         <div>
             { record && possibleActions 
-                ?  (<div>
-                        <h1>Actions:</h1>
+                ?  (<div style={containerStyles}>
+                        <h1 className="d-flex justify-content-center">Actions</h1>
 
                         <ActionsGrid
                             possibleActions={possibleActions}
                             selectedActions={selectedActions}
                             onSelectedActionsChange={onSelectedActionsChange}
                             record={record}/>
-
-                        <button onClick={() => runActions()}>Run</button>
+                        <div className="d-flex justify-content-center">
+                            <Button variant="secondary" size="lg" onClick={() => runActions()}>Run</Button>
+                        </div>
                     </div>)
                 : (<h3>Fetching...</h3>)
             }

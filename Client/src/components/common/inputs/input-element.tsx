@@ -1,3 +1,5 @@
+import { Form } from "react-bootstrap";
+
 interface RenderInputProps {
     id: string,
     label: string,
@@ -9,14 +11,14 @@ interface RenderInputProps {
 
 export const InputElement = (props: RenderInputProps) => {
     return (
-        <div>
-            <label htmlFor={props.id}>{props.label}</label>
-            <input
+        <Form.Group controlId={props.id}>
+            <Form.Label>{props.label}</Form.Label>
+            <Form.Control
                 type={props.inputType}
                 name={props.id} 
                 onChange={e => props.onChange(e.target.value)}
                 disabled={props.disabled}
                 value={props.value} />
-        </div>
+        </Form.Group>
     );
 }
