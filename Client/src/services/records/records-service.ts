@@ -1,15 +1,14 @@
 import * as http from "../../services/api/http"
 import { IRecord } from "../../entities/records/models";
-import { saveAs } from 'file-saver';
-import { objToQuery, queryToObj } from "../common/query-converter";
-import { IPagination, SearchResult } from "../../entities/search/models";
+import { objToQuery } from "../common/query-converter";
+import { IRecordSearchContext, SearchResult } from "../../entities/search/models";
 import { IAction } from "../../entities/actions/models";
 
 export class RecordsService {
     uri = "records";
 
-    async get(pagination: IPagination): Promise<SearchResult<IRecord>> {
-        const queryString = objToQuery(pagination);
+    async get(context: IRecordSearchContext): Promise<SearchResult<IRecord>> {
+        const queryString = objToQuery(context);
         const response = await http.get(this.uri + "?" + queryString);
         if (response.data == null)
             return new SearchResult<IRecord>();

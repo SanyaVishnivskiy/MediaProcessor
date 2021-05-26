@@ -4,6 +4,7 @@ using Core.DataAccess.Base.Database;
 using Core.DataAccess.EF;
 using Core.DataAccess.Records.DB.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Core.DataAccess.Records.DB
@@ -31,11 +32,12 @@ namespace Core.DataAccess.Records.DB
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<SearchResult<Record>> GetWithAllDependencies(Pagination pagination)
+        public Task<SearchResult<Record>> GetWithAllDependencies(RecordSearchContext context)
         {
             return Get(
-                pagination,
+                context.Pagination,
                 query => query
+                    .Where(x => x.FileName.Contains(context.Search))
                     .Include(x => x.File)
                     .Include(x => x.Preview)
                     .AsNoTracking());

@@ -9,7 +9,7 @@ namespace Core.Business.Records.Component
     public interface IRecordsComponent
     {
         Task<List<RecordModel>> Get(Pagination pagination);
-        Task<SearchResult<RecordModel>> GetWithDependencies(Pagination pagination);
+        Task<SearchResult<RecordModel>> GetWithDependencies(RecordSearchContext context);
         Task<RecordModel> GetById(string id);
         Task Add(RecordModel model);
         Task AddDefault(RecordModel model);

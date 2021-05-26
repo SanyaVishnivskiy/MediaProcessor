@@ -10,7 +10,7 @@ namespace Core.Business.Records.Facade
 {
     public interface IRecordsComponentFacade
     {
-        Task<SearchResult<RecordModel>> Get(Pagination pagination);
+        Task<SearchResult<RecordModel>> Get(RecordSearchContext context);
         Task<RecordModel> GetById(string id);
         Task<Stream> Download(RecordModel record);
         Task<SaveFileResponseModel> SaveFileChunk(FileModel file);

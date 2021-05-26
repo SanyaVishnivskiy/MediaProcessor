@@ -16,7 +16,6 @@ export const RecordsGrid = ({records}: RecordsGridProps) => {
         for (let i = 0; i < records.length; i += chunksPerRow) {
             result.push(records.slice(i , i + chunksPerRow));
         }
-        console.log(records, result);
         return result;
     }
 

@@ -37,9 +37,11 @@ namespace Core.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Get([FromQuery]Pagination pagination)
+        public async Task<ActionResult> Get([FromQuery]Pagination pagination, [FromQuery]string search = "")
         {
-            var result = await _facade.Get(pagination);
+            search ??= "";
+
+            var result = await _facade.Get(new RecordSearchContext { Search = search, Pagination = pagination});
             var mappedItems = result.RecreateWithType(x => _mapper.Map<List<RecordDTO>>(x));
             return Ok(mappedItems);
         }

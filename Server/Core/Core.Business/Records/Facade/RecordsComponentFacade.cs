@@ -26,9 +26,9 @@ namespace Core.Business.Records.Facade
             _jobComponent = jobComponent ?? throw new ArgumentNullException(nameof(jobComponent));
         }
 
-        public Task<SearchResult<RecordModel>> Get(Pagination pagination)
+        public Task<SearchResult<RecordModel>> Get(RecordSearchContext context)
         {
-            return _recordComponent.GetWithDependencies(pagination);
+            return _recordComponent.GetWithDependencies(context);
         }
 
         public Task<RecordModel> GetById(string id)

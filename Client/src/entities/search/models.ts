@@ -5,11 +5,16 @@ export interface IPagination {
     sortOrder: 'asc' | 'desc';
 }
 
-export const urlParamsToPagination = (params: URLSearchParams): IPagination | null => {
+export interface IRecordSearchContext extends IPagination {
+    search: string;
+}
+
+export const urlParamsToPagination = (params: URLSearchParams): IRecordSearchContext | null => {
     const size = params.get('size');
     const page = params.get('page');
     const sortBy = params.get('sortBy');
     const sortOrder = params.get('sortOrder'); 
+    const search = params.get('search'); 
 
     if (!size || !page || !sortBy || !sortOrder) {
         return null;
@@ -19,7 +24,8 @@ export const urlParamsToPagination = (params: URLSearchParams): IPagination | nu
         size: size ? +size : 0,
         page: page ? +page : 0,
         sortBy: sortBy ?? '',
-        sortOrder: sortOrder === 'desc' ? 'desc' : 'asc'
+        sortOrder: sortOrder === 'desc' ? 'desc' : 'asc',
+        search: search ?? ''
     }
 } 
 

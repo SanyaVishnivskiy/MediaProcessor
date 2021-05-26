@@ -77,9 +77,9 @@ namespace Core.Business.Records.Component
             return _mapper.Map<List<RecordModel>>(result);
         }
 
-        public async Task<SearchResult<RecordModel>> GetWithDependencies(Pagination pagination)
+        public async Task<SearchResult<RecordModel>> GetWithDependencies(RecordSearchContext context)
         {
-            var result = await _context.Records.GetWithAllDependencies(pagination);
+            var result = await _context.Records.GetWithAllDependencies(context);
             return result.RecreateWithType(x => _mapper.Map<List<RecordModel>>(x));
         }
 
