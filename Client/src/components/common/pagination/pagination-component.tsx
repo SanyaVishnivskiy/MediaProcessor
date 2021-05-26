@@ -47,6 +47,10 @@ export const PaginationComponent = (props: PaginationComponentProps) => {
         width: '100%'
     };
     
+    if (totalPages() <= 1) {
+        return <></>
+    }
+
     return (
         <div style={paginationContainerStyles}>
             <Pagination

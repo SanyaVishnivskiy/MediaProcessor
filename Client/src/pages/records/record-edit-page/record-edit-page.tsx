@@ -49,7 +49,7 @@ export const RecordEditPage = (props: RecordEditPageProps) => {
     }
     
     return (
-        <div>
+        <div style={{marginBottom: '20px'}}>
             <h1 className="d-flex justify-content-center">Record</h1>
             <Container>
                 <Row xs="1" md="2">

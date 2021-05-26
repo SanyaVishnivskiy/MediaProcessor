@@ -44,12 +44,12 @@ export const RecordBlock = ({record}: RecordBlockProps) => {
     }
 
     const cardStyles : CSSProperties = {
-        minWidth: '300px',
+        minWidth: '250px',
         marginBottom: '30px'
     }
 
     const cardBodyStyles: CSSProperties = {
-        height: '100px'
+        height: '120px'
     }
 
     return (
