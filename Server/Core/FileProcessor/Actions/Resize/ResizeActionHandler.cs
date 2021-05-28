@@ -1,9 +1,6 @@
 ﻿using FileProcessor.Actions.Base;
 using System;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using Xabe.FFmpeg;
 
 namespace FileProcessor.Actions.Resize
 {
@@ -31,7 +28,7 @@ namespace FileProcessor.Actions.Resize
 
         private async Task<ActionHandlerResult> Handle(ResizeAction action)
         {
-            var conversion = await FFmpeg.Conversions.FromSnippet
+            var conversion = await Xabe.FFmpeg.FFmpeg.Conversions.FromSnippet
                 .ChangeSize(
                     action.InputPath,
                     action.OutputPath,

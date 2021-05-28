@@ -33,7 +33,7 @@ export class AuthService {
     private handleErrorResponse(e: any): string {
         const response = e as AxiosResponse<any>;
         console.log(response);
-        if (!response.status) {
+        if (!response?.status) {
             return "Internal server error";
         }
         

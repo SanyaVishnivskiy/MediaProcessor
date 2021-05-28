@@ -92,10 +92,10 @@ namespace FileProcessor.Actions.Preview
 
         private async Task<string> GenerateForVideo(GeneratePreviewAction action)
         {
-            var info = await FFmpeg.GetMediaInfo(action.InputPath);
+            var info = await Xabe.FFmpeg.FFmpeg.GetMediaInfo(action.InputPath);
             var snapshotTime = GetSnapshotTime(action, info.VideoStreams.First());
 
-            var conversion = await FFmpeg.Conversions.FromSnippet
+            var conversion = await Xabe.FFmpeg.FFmpeg.Conversions.FromSnippet
                .Snapshot(
                    action.InputPath,
                    action.OutputPath,

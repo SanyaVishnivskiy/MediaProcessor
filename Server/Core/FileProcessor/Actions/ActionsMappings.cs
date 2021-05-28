@@ -1,5 +1,6 @@
 ﻿using Core.Common.Media;
 using FileProcessor.Actions.Base;
+using FileProcessor.Actions.Crop;
 using FileProcessor.Actions.Preview;
 using FileProcessor.Actions.Resize;
 using FileProcessor.Actions.Unknown;
@@ -26,6 +27,11 @@ namespace FileProcessor.Actions
                     new GeneratePreviewAction(),
                     typeof(GeneratePreviewActionHandler),
                     mediaTypes: new MediaType[] { MediaType.Video}
+                )},
+            { ActionType.Crop, new ActionMap(
+                    new CropAction(),
+                    typeof(CropActionHandler),
+                    mediaTypes: new MediaType[] { MediaType.Image, MediaType.Video}
                 )},
             { ActionType.Unknown, new ActionMap(
                     new UnknownAction(),

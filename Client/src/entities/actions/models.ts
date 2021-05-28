@@ -8,6 +8,7 @@ export enum ActionType {
     NotSelected = 'NotSelected',
     Resize = 'Resize',
     GeneratePreview = 'GeneratePreview',
+    Crop = 'Crop'
 }
 
 export interface IRunActionsRequest {
@@ -46,6 +47,28 @@ export class GeneratePreviewAction implements IAction {
         clone.outputPath = this.outputPath;
         clone.recordId = this.recordId;
         clone.timeOfSnapshot = this.timeOfSnapshot;
+
+        return clone;
+    }
+}
+
+export class CropAction implements IAction {
+    type: ActionType = ActionType.Crop
+    inputPath: string = ""
+    outputPath: string = ""
+    height: number = 0
+    width: number = 0
+    x: number = 0
+    y: number = 0
+
+    clone() : CropAction {
+        const clone = new CropAction();
+        clone.inputPath = this.inputPath;
+        clone.outputPath = this.outputPath;
+        clone.height = this.height;
+        clone.width = this.width;
+        clone.x = this.x;
+        clone.y = this.y;
 
         return clone;
     }

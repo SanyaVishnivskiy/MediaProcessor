@@ -1,7 +1,8 @@
 import React, { CSSProperties, useState } from "react";
-import { ActionType, GeneratePreviewAction, IAction, ResizeAction } from "../../../../entities/actions/models";
+import { ActionType, CropAction, GeneratePreviewAction, IAction, ResizeAction } from "../../../../entities/actions/models";
 import { IRecord } from "../../../../entities/records/models";
 import { ActionInputDropdown } from "./action-input-dropdown";
+import { CropActionInput } from "./inputs/crop-action-input";
 import { PreviewActionInput } from "./inputs/preview-action-input";
 import { ResizeActionInput } from "./inputs/resize-action-input";
 
@@ -49,6 +50,16 @@ export const ActionInput = (props: ActionInputProps) => {
         );
     }
 
+    const generateCropInput = () => {
+        return (
+            <div>
+                <CropActionInput 
+                    action={props.action as CropAction}
+                    onActionChange={onActionChange} />
+            </div>
+        );
+    }
+
     const renderInputFor = (type: ActionType) => {
         switch (props.action.type) {
             case ActionType.NotSelected:
@@ -57,6 +68,8 @@ export const ActionInput = (props: ActionInputProps) => {
                 return resizeActionInput();
             case ActionType.GeneratePreview:
                 return generatePreviewInput();
+            case ActionType.Crop:
+                return generateCropInput();
             default:
                 return notSelectedActionInput();
         };

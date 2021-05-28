@@ -1,14 +1,15 @@
 ﻿using Core.Common.Media;
 using Core.Common.Models.Configurations;
 using FileProcessor.Actions;
+using FileProcessor.Actions.Crop;
 using FileProcessor.Actions.Preview;
 using FileProcessor.Actions.Resize;
 using FileProcessor.Actions.Unknown;
+using FileProcessor.Engines.FFMPEG;
 using FileProcessor.Files;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.IO;
-using Xabe.FFmpeg;
 
 namespace FileProcessor.Composition
 {
@@ -29,6 +30,7 @@ namespace FileProcessor.Composition
         private static void ComposeHandlers(IServiceCollection services)
         {
             services.AddTransient<ResizeActionHandler>();
+            services.AddTransient<CropActionHandler>();
             services.AddTransient<GeneratePreviewActionHandler>();
             services.AddTransient<UnknownActionHandler>();
         }
@@ -61,7 +63,9 @@ namespace FileProcessor.Composition
 
         private static void ComposeFfmpeg(IServiceCollection services, ProcessingConfiguration processingConfig)
         {
-            FFmpeg.SetExecutablesPath(processingConfig.Actions.FfmpegPath);
+            var ffmpegDiretory = Path.GetDirectoryName(processingConfig.Actions.FfmpegPath);
+            Xabe.FFmpeg.FFmpeg.SetExecutablesPath(ffmpegDiretory);
+            services.AddTransient<IFFmpegEngine, FFmpegEngine>();
         }
     }
 }
