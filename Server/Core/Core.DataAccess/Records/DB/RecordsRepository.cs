@@ -4,7 +4,9 @@ using Core.DataAccess.Base.Database;
 using Core.DataAccess.EF;
 using Core.DataAccess.Records.DB.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Core.DataAccess.Records.DB
@@ -34,13 +36,30 @@ namespace Core.DataAccess.Records.DB
 
         public Task<SearchResult<Record>> GetWithAllDependencies(RecordSearchContext context)
         {
+            var orderByFunc = GetOrderByFunc(context);
+
             return Get(
-                context.Pagination,
+                new FuncPagination<Record>(context.Pagination, orderByFunc),
                 query => query
                     .Where(x => x.FileName.Contains(context.Search))
                     .Include(x => x.File)
                     .Include(x => x.Preview)
                     .AsNoTracking());
+        }
+
+        private Expression<Func<Record, object>> GetOrderByFunc(RecordSearchContext context)
+        {
+            var orderBy = context.Pagination.SortBy;
+            if (orderBy == "createdOn")
+            {
+                return x => x.CreatedOn;
+            }
+            if (orderBy == "fileName")
+            {
+                return x => x.FileName;
+            }
+
+            return x => x.Id;
         }
 
         public override Task Delete(Record entity)

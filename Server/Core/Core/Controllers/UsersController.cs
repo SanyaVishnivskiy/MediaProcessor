@@ -42,7 +42,7 @@ namespace Core.Controllers
                 return BadRequest(result.Errors);
             }
 
-            return StatusCode(204);
+            return StatusCode(201);
         }
 
         [HttpGet]

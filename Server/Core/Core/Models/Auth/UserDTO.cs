@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Core.Models.Auth
 {
@@ -13,5 +10,6 @@ namespace Core.Models.Auth
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public List<string> Roles { get; set; }
     }
 }

@@ -13,7 +13,7 @@ const getInitialPagination = (): IRecordSearchContext => {
     return {
         size: 6,
         page: 1,
-        sortBy: 'id',
+        sortBy: 'createdOn',
         sortOrder: 'desc',
         search: ''
     };

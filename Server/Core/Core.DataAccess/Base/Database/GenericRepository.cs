@@ -5,8 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Core.DataAccess.Base.Database
@@ -33,7 +31,7 @@ namespace Core.DataAccess.Base.Database
         }
 
         public virtual async Task<SearchResult<T>> Get(
-            Pagination pagination,
+            FuncPagination<T> pagination,
             Func<IQueryable<T>, IQueryable<T>> modify = null)
         {
             var query = modify?.Invoke(Set) ?? Set;
@@ -87,11 +85,23 @@ namespace Core.DataAccess.Base.Database
 
         protected IQueryable<T> Paginate(
             IQueryable<T> items,
-            Pagination pagination)
+            FuncPagination<T> pagination)
         {
-            return items
+            var ordered = GetOrderByQuery(items, pagination);
+
+            return ordered
                 .Skip((pagination.Page - 1) * pagination.Size)
                 .Take(pagination.Size);
+        }
+
+        private IQueryable<T> GetOrderByQuery(IQueryable<T> items, FuncPagination<T> pagination)
+        {
+            if (pagination.IsDescendingSortOrder)
+            {
+                return items.OrderByDescending(pagination.SortBy);
+            }
+
+            return items.OrderBy(pagination.SortBy);
         }
     }
 }

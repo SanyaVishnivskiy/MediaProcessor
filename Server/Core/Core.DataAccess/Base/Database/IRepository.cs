@@ -12,7 +12,7 @@ namespace Core.DataAccess.Base.Database
         Task<T> GetById(string id);
         Task<List<T>> GetAll();
         Task<SearchResult<T>> Get(
-            Pagination pagination,
+            FuncPagination<T> pagination,
             Func<IQueryable<T>, IQueryable<T>> modify = null);
         Task Add(T entity);
         Task AddRange(IEnumerable<T> entities);

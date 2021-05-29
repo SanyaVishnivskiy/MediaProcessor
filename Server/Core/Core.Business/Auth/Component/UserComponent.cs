@@ -45,7 +45,10 @@ namespace Core.Business.Auth.Component
         public async Task<UserModel> GetById(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
-            return _mapper.Map<UserModel>(user);
+            var roles = await _userManager.GetRolesAsync(user);
+            var model = _mapper.Map<UserModel>(user);
+            model.Roles = roles.ToList();
+            return model;
         }
 
         public async Task<List<UserModel>> Search(SearchUsersContext context)
