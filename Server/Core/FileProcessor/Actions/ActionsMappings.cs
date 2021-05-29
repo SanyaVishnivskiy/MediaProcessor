@@ -3,6 +3,7 @@ using FileProcessor.Actions.Base;
 using FileProcessor.Actions.Crop;
 using FileProcessor.Actions.Preview;
 using FileProcessor.Actions.Resize;
+using FileProcessor.Actions.Trim;
 using FileProcessor.Actions.Unknown;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,11 @@ namespace FileProcessor.Actions
                     new CropAction(),
                     typeof(CropActionHandler),
                     mediaTypes: new MediaType[] { MediaType.Image, MediaType.Video}
+                )},
+            { ActionType.Trim, new ActionMap(
+                    new TrimAction(),
+                    typeof(TrimActionHandler),
+                    mediaTypes: new MediaType[] { MediaType.Video}
                 )},
             { ActionType.Unknown, new ActionMap(
                     new UnknownAction(),

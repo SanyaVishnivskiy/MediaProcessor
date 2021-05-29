@@ -17,5 +17,6 @@
         Resize = 1,
         GeneratePreview = 2,
         Crop = 3,
+        Trim = 4,
     }
 }

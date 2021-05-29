@@ -4,6 +4,7 @@ using FileProcessor.Actions;
 using FileProcessor.Actions.Crop;
 using FileProcessor.Actions.Preview;
 using FileProcessor.Actions.Resize;
+using FileProcessor.Actions.Trim;
 using FileProcessor.Actions.Unknown;
 using FileProcessor.Engines.FFMPEG;
 using FileProcessor.Files;
@@ -31,6 +32,7 @@ namespace FileProcessor.Composition
         {
             services.AddTransient<ResizeActionHandler>();
             services.AddTransient<CropActionHandler>();
+            services.AddTransient<TrimActionHandler>();
             services.AddTransient<GeneratePreviewActionHandler>();
             services.AddTransient<UnknownActionHandler>();
         }

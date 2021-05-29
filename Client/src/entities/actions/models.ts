@@ -8,7 +8,8 @@ export enum ActionType {
     NotSelected = 'NotSelected',
     Resize = 'Resize',
     GeneratePreview = 'GeneratePreview',
-    Crop = 'Crop'
+    Crop = 'Crop',
+    Trim = 'Trim'
 }
 
 export interface IRunActionsRequest {
@@ -69,6 +70,24 @@ export class CropAction implements IAction {
         clone.width = this.width;
         clone.x = this.x;
         clone.y = this.y;
+
+        return clone;
+    }
+}
+
+export class TrimAction implements IAction {
+    type: ActionType = ActionType.Trim
+    inputPath: string = ""
+    outputPath: string = ""
+    start: string = ""
+    end: string = ""
+
+    clone() : TrimAction {
+        const clone = new TrimAction();
+        clone.inputPath = this.inputPath;
+        clone.outputPath = this.outputPath;
+        clone.start = this.start;
+        clone.end = this.end;
 
         return clone;
     }

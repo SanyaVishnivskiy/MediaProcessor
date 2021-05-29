@@ -1,10 +1,11 @@
 import React, { CSSProperties, useState } from "react";
-import { ActionType, CropAction, GeneratePreviewAction, IAction, ResizeAction } from "../../../../entities/actions/models";
+import { ActionType, CropAction, GeneratePreviewAction, IAction, ResizeAction, TrimAction } from "../../../../entities/actions/models";
 import { IRecord } from "../../../../entities/records/models";
 import { ActionInputDropdown } from "./action-input-dropdown";
 import { CropActionInput } from "./inputs/crop-action-input";
 import { PreviewActionInput } from "./inputs/preview-action-input";
 import { ResizeActionInput } from "./inputs/resize-action-input";
+import { TrimActionInput } from "./inputs/trim-action-input";
 
 interface ActionInputProps {
     record: IRecord,
@@ -60,7 +61,17 @@ export const ActionInput = (props: ActionInputProps) => {
         );
     }
 
-    const renderInputFor = (type: ActionType) => {
+    const generateTrimInput = () => {
+        return (
+            <div>
+                <TrimActionInput 
+                    action={props.action as TrimAction}
+                    onActionChange={onActionChange} />
+            </div>
+        );
+    }
+
+    const renderInput = () => {
         switch (props.action.type) {
             case ActionType.NotSelected:
                 return notSelectedActionInput();
@@ -70,6 +81,8 @@ export const ActionInput = (props: ActionInputProps) => {
                 return generatePreviewInput();
             case ActionType.Crop:
                 return generateCropInput();
+            case ActionType.Trim:
+                return generateTrimInput();
             default:
                 return notSelectedActionInput();
         };
@@ -86,7 +99,7 @@ export const ActionInput = (props: ActionInputProps) => {
                 actions={props.possibleAction}
                 onChange={onChange}
             />
-            {renderInputFor(props.action.type)}
+            {renderInput()}
         </div>
     );
 }
