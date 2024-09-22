@@ -1,6 +1,7 @@
 ﻿using FFmpeg.NET;
 using FileProcessor.Composition;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FileProcessor.Engines.FFMPEG
@@ -22,7 +23,7 @@ namespace FileProcessor.Engines.FFMPEG
         public Task Execute(string arguments)
         {
             var engine = new Engine(_config.Actions.FfmpegPath);
-            return engine.ExecuteAsync(arguments);
+            return engine.ExecuteAsync(arguments, CancellationToken.None);
         }
     }
 }

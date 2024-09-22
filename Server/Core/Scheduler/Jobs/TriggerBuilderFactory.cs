@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-using Quartz;
+﻿using Quartz;
 using System.Collections.Generic;
 
 namespace Scheduler.Jobs

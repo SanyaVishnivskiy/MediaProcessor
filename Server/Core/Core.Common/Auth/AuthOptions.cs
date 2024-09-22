@@ -7,8 +7,9 @@ namespace Core.Common.Auth
     {
         public const string Issuer = "http://localhost:9301/";
         public const string Audience = "https://localhost:3000/";
-        const string Key = "mysupersecret_secretkey!123";
+        const string Key = "mysupersecret_secretkey!123WithSomeSecretValue";
         public const int LifetimeInMinutes = 600;
+
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {
             return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Key));
