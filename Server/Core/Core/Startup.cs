@@ -17,8 +17,6 @@ using Core.DataAccess.Auth;
 using Core.DataAccess.Auth.Roles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System;
 using Core.Common.Auth;
 using Microsoft.AspNetCore.Authorization;
 
