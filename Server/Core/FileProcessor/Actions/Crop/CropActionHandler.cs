@@ -36,7 +36,7 @@ namespace FileProcessor.Actions.Crop
 
         private async Task<ActionHandlerResult> Handle(CropAction action)
         {
-            var arguments = $"-i {action.InputPath} -vf \"crop = {action.Width}:{action.Height}:{action.X}:{action.Y}\" {action.OutputPath}";
+            var arguments = $"-i {action.InputPath.Escape()} -vf \"crop = {action.Width}:{action.Height}:{action.X}:{action.Y}\" {action.OutputPath.Escape()}";
             await _engine.Execute(arguments);
 
             return ActionHandlerResult.Successful(action.OutputPath);
